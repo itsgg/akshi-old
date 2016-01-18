@@ -1,0 +1,7 @@
+$('#modal').html('<%= escape_javascript(render "schedules/index",
+                                        :course => @course,
+                                        :schedules => @schedules,
+                                        :schedule => Schedule.new) %>');
+<%= render 'shared/modal_flash' %>
+$('.upcoming-count').text('<%= @course.schedules.upcoming.count %>');
+window.initAjaxCSRF('<%= form_authenticity_token %>');

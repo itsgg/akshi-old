@@ -1,0 +1,15 @@
+<ul class="nav nav-tabs">
+  <li class="<%= 'active' if active == 'edit' %>">
+    <%= link_to 'Edit',
+                course_lesson_path(course, lesson, :type => params[:type],
+                                   :subtype => params[:subtype], :page => params[:page]),
+                :remote => true %>
+  </li>
+  <li class="<%= 'active' if active == 'preview' %>" >
+    <%= link_to 'Preview',
+                preview_course_lesson_path(course, lesson, :type => params[:type],
+                                          :subtype => params[:subtype],
+                                          :page => params[:page], :debug => params[:debug]),
+                :remote => true %>
+  </li>
+</ul>

@@ -1,0 +1,21 @@
+<%= render 'courses/menu', :course => course %>
+<%= render 'lessons/actionbar', :course => course %>
+
+<% if lessons.present? %>
+  <% if current_user.teacher?(course.id) %>
+    <div id="loading-overlay"></div>
+  <% end %>
+  <div class="row">
+    <div class="tabs-left span4" id="lessons-nav">
+      <%= render 'lessons/nav', :course => course, :lesson => lesson,
+                 :lessons => lessons, :subject => params[:subject] %>
+    </div>
+    <div class="span8" id="lessons">
+      <%= render 'lessons/show', :lesson => lesson, :course => course, :subject => params[:subject] %>
+    </div>
+  </div>
+<% else %>
+  <div class="alert">
+    <%= t('lessons.no_lessons') %>
+  </div>
+<% end %>

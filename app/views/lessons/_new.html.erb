@@ -1,0 +1,34 @@
+<%= form_for [course, lesson],
+            :html => {:class => 'form-horizontal', :remote => true} do |f| %>
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <h4><%= t('lessons.new') %></h4>
+  </div>
+  <div class="modal-body">
+    <%= hidden_field_tag 'subtype', params[:subtype] %>
+    <%= hidden_field_tag 'type', params[:type] %>
+    <fieldset>
+      <%= render :layout => 'shared/bootstrap_field',
+                 :locals => {:object => lesson, :type => :name, :f => f} do %>
+        <%= f.text_field :name,
+                         :placeholder => t('lessons.placeholders.name'),
+                         :maxlength => 80 %>
+      <% end %>
+
+      <% unless course.list_of_subjects.blank? %>
+        <%= render :layout => 'shared/bootstrap_field',
+                  :locals => {:object => lesson,
+                              :type => :subject, :f => f} do %>
+          <%= f.select :subject_id, options_for_select(course.list_of_subjects),
+                           {}, {:class => 'rich'} %>
+        <% end %>
+      <% end %>
+    </fieldset>
+  </div>
+  <div class="modal-footer">
+    <%= f.submit t('lessons.create'), :class => 'btn btn-primary' %>
+    <button class="btn" data-dismiss="modal">
+      <%= t('site.close') %>
+    </button>
+  </div>
+<% end %>

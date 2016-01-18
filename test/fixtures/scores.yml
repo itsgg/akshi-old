@@ -1,0 +1,33 @@
+# == Schema Information
+#
+# Table name: scores
+#
+#  id              :integer          not null, primary key
+#  user_id         :integer
+#  quiz_id         :integer
+#  total_questions :integer          default(0)
+#  correct_answers :integer          default(0)
+#  start_time      :datetime
+#  finished        :boolean          default(FALSE)
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#
+
+one:
+  user: akshi
+  quiz: prob
+  total_questions: 10
+  correct_answers: 5
+
+two:
+  user: akshi
+  quiz: verbs
+  total_questions: 9
+  correct_answers: 3
+
+three:
+  user: gg
+  quiz: test
+  total_questions: 10
+  correct_answers: 0
+  finished: true

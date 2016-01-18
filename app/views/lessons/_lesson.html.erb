@@ -1,0 +1,25 @@
+<div class="page-header">
+  <h4><%= lesson.name %></h4>
+</div>
+<div id="lesson-<%= lesson.id %>">
+  <div class="viewer">
+    <% if lesson.upload.present? %>
+      <% if lesson.conversion_complete? %>
+        <%= render "shared/viewers/#{lesson.upload_type}",
+                   :lesson => lesson, :show_controls => true %>
+      <% else %>
+        <%= render 'shared/viewers/conversion_pending', :course => course,
+                   :lesson => lesson %>
+      <% end %>
+    <% end %>
+  </div>
+  <% if lesson.content.present? %>
+    <hr />
+    <p><%= raw lesson.content %></p>
+  <% end %>
+  <% if lesson.content.blank? && lesson.upload_file_name.blank? %>
+    <div class="alert">
+      <%= t('lessons.no_content') %>
+    </div>
+  <% end %>
+</div>

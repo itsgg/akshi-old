@@ -1,0 +1,9 @@
+Hi <%= @admin.fullname %>,
+
+<%= @user_info %> posted '<%= raw @comment.content %>' under '<%= @comment.post.title %>'.
+Comments will be viewable by public only when you approve it.
+
+Go to 'Comments Review' <%= hash_url(admin_comments_url, admin_comments_path) %>.
+
+<%= t('site.title') %>,
+<%= t('site.subtitle') %>

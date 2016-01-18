@@ -1,0 +1,116 @@
+<div class="alert">
+  <div class="upcoming pull-left">
+    <% if next_class.present? %>
+      <strong><%= t('schedules.next_class') %>:</strong>
+      <%= next_class.description %>, <%= next_class.start_time.to_s :human %>
+    <% else %>
+      <%= t('schedules.no_classes') %>
+    <% end %>
+  </div>
+  <div class="schedule pull-right">
+    <%= link_to raw("#{t('schedules.upcoming')}
+                    (<span class='upcoming-count'>#{course.schedules.upcoming.count}</span>)"),
+                course_schedules_path(course), :remote => true,
+                :class => 'btn btn-success btn-small' %>
+  </div>
+  <div class="clear"></div>
+</div>
+
+<% if current_user.teacher?(course.id) %>
+  <div class="row controls">
+    <div class="span3">
+      <div class="input-append form-inline">
+        <div class="btn-group" data-toggle="buttons-radio">
+          <button type="button" class="btn active" id="draw-whiteboard-<%= course.id %>">
+            <i class="icon-pencil" /> Draw
+          </button>
+          <button type="button" class="btn" id="erase-whiteboard-<%= course.id %>">
+            <i class="icon-tint" /> Erase
+          </button>
+        </div>
+        <div class="btn-group">
+          <button type="button" class="btn btn-danger" id="clear-whiteboard-<%= course.id %>">
+            <i class="icon-remove" /> Clear
+          </button>
+        </div>
+      </div>
+    </div>
+    <% if slides.present? %>
+      <div class="span3">
+        <div class="form-inline pull-right">
+          <%= select_tag 'slide_id',
+                grouped_options_for_select(grouped_subject(course), current_slide.id),
+                :class => 'span2 rich' %>
+          <button class="btn" id="toggle-presentation-<%= course.id %>" type="button"
+                  style="width: 70px;">
+            Show
+          </button>
+        </div>
+      </div>
+      <div class="hide" id="controls-<%= course.id %>">
+        <div class="pull-right">
+          <a href="#" class="btn" id="previous-slide-<%= course.id %>">
+            <i class="icon-arrow-left" />
+          </a>
+          <span class="add-on">
+            <span id="current-slide-<%= course.id %>">x</span> /
+            <span id="total-slides-<%= course.id %>">xx</span>
+          </span>
+          <a href="#" class="btn" id="next-slide-<%= course.id %>">
+            <i class="icon-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+<div id="whiteboard-<%= course.id %>" class="whiteboard">
+  <canvas width="620" height="470"></canvas>
+</div>
+
+<script type="text/javascript">
+  <% if current_user.teacher?(course.id) %>
+    $('#whiteboard-<%= course.id %> canvas').mousedown(function(event, type) {
+      $('#whiteboard-<%= course.id %> canvas').css('cursor', 'crosshair');
+    });
+    $('#whiteboard-<%= course.id %> canvas').mouseup(function(event, type) {
+      $('#whiteboard-<%= course.id %> canvas').css('cursor', 'none');
+    });
+    $('#whiteboard-<%= course.id %> canvas').css('cursor', 'none');
+    $('#whiteboard-<%= course.id %> canvas').wbPublish('<%= course.id %>');
+  <% end %>
+  <% if current_user.student?(course.id) %>
+    $('#whiteboard-<%= course.id %> canvas').css('cursor', 'not-allowed');
+    $('#whiteboard-<%= course.id %> canvas').wbSubscribe('<%= course.id %>');
+  <% end %>
+  <% if current_slide.present? %>
+    var selected_option = $("#slide_id option:selected").text();
+    var slides = JSON.parse('<%= raw current_slide.processed_uploads.to_json %>');
+    var currentSlide = slides[0];
+    if (($('#slide_info').val() != 'x' || $('#slide_info').val() != '') && (selected_option.split('.')[1] != 'gif') &&
+      slides.length > $("#slide_info").val())
+      var currentSlide = slides[$("#slide_info").val() - 1];
+    else
+      var currentSlide = slides[0];
+    window.publishPresentation('<%= course.id %>', currentSlide, slides);
+  <% end %>
+
+  <% if current_user.student?(course.id) %>
+    window.subscribePresentation('<%= course.id %>');
+  <% end %>
+
+  $('#slide_id').change(function(event, type) {
+    if(type !== 'slideSync') {
+      $.get('<%= course_live_path(course, :format => "js") %>', {
+        slide_id: $(this).val(),
+        change_slide: true
+      });
+    }
+    var selected_option = $("#slide_id option:selected").text();
+    var length_selected_option = selected_option.split('.').length
+    if (selected_option.split('.')[length_selected_option - 1] != 'pdf' && selected_option.split('.')[length_selected_option - 1] != 'pptx'){
+      $('#slide_info').val($('#current-slide-<%= course.id %>').html())
+    }
+  });
+</script>

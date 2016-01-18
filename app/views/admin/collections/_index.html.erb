@@ -1,0 +1,173 @@
+<%= render 'admin/nav' %>
+
+<div class="rows clearfix">
+  <div class="span4 well">
+    <div class="page-header">
+      <h4>
+        <%= t('collections.collections') %>
+        <%= link_to raw('<span class="icon-plus"></span>'),
+                    new_admin_collection_path,
+                    :id => 'add-collection',
+                    :class => 'pull-right',
+                    :remote => true,
+                    :title => 'New collection' %>
+      </h4>
+    </div>
+    <div id="collections">
+    </div>
+  </div>
+  <div class="span7">
+    <div class="page-header clearfix">
+      <h4>
+        <%= t('collections.courses') %>
+      </h4>
+    </div>
+    <div class="well well-small well-condensed">
+      <div class="pull-left">
+        <%= render 'admin/collections/search' %>
+      </div>
+      <div class="pull-left filter">
+        <% if params[:q].try(:[], 'name_or_description_cont').present? %>
+          <span class="label label-info">
+            <%= link_to raw("&times;"),
+                        hash_path(admin_collections_path(:type => params[:type],
+                                                  :subtype => params[:subtype],
+                                                  :filter => params[:filter],
+                                                  :q => nil)),
+                        :class => 'close-tag', :rel => 'tooltip', :title => 'Remove filter' %>
+            <%= params[:q][:name_or_description_cont] %>
+          </span>
+        <% end %>
+      </div>
+    </div>
+
+    <% if courses.present? %>
+      <ul id="courses-select-list">
+        <% courses.each do |course| %>
+          <li id="course_<%= course.id %>">
+            <div>
+              <div class="pull-left" style="padding: 0 5px 0 5px;">
+                <i class="icon-reorder icon-gray" />
+              </div>
+              <%= link_to course.name,
+                          hash_path(course_path(course)) %>
+            </div>
+            <div class="course-collections">
+              <% course.collections.each do |collection| %>
+                <span class="label label-info">
+                  <a href="#" class="close-tag remove-course" data-course_id="<%= course.id %>"
+                              data-collection_id="<%= collection.id %>"
+                              rel="tooltip" title="Remove course from collection">
+                    &times;
+                  </a>
+                  <%= collection.name %>
+                </span>
+              <% end %>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+      <div class="pull-right">
+        <%= page_navigation_links(courses) %>
+      </div>
+    <% else %>
+      <div class="alert">
+        <%= t('collections.no_courses') %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $('#collections').tree({
+      dataUrl: '/admin/collections.json',
+      selectable: false,
+      autoEscape: false,
+      autoOpen: true
+  });
+
+  $('#collections').bind('tree.init', function() {
+    // Delete collections
+    $('.delete-collections').click(function() {
+      if(confirm('<%= t('site.confirm') %>')) {
+        var collectionId = $(this).data('collection_id');
+        $.ajax({
+          url: '/admin/collections/' + collectionId + '.json',
+          type: 'delete',
+          success: function(result) {
+            if(result.success) {
+              $(window).hashchange();
+            }
+          }
+        });
+      }
+      return false;
+    });
+
+    // Allow courses to be added to collections
+    $('.jqtree-leaf').droppable({
+      hoverClass: 'jqtree-hover',
+      drop: function(event, ui) {
+        var self = $(this);
+        var collectionElem = self.find('span > a');
+        var courseElem = $(ui.draggable);
+        var collectionId = collectionElem.attr('id').split('_')[1];
+        var courseId = courseElem.attr('id').split('_')[1];
+        $.ajax({
+          url: '/admin/collections/' + collectionId + '/add_course.json?course_id=' + courseId,
+          type: 'PUT',
+          success: function(result) {
+            if(result.success) {
+              var courseCount = collectionElem.find('~ span');
+              courseCount.text(parseInt(courseCount.text()) + 1);
+              var closeTag = '<span class="label label-info">' +
+                             '<a href="#" class="close-tag remove-course" data-course_id="' +
+                             courseId + '" data-collection_id="' + collectionId + '" rel="tooltip"' +
+                             ' title="Remove course from collection">&times;</a>' +
+                             collectionElem.text() + '</span>';
+              courseElem.find('.course-collections').append(closeTag);
+            } else {
+              window.showFlash(result.message, 'error');
+            }
+          }
+        });
+      }
+    });
+
+    // Edit collections
+    $('body').on('click', '.jqtree-title', function(event) {
+      var collectionId = $(event.target).attr('id').split('_')[1];
+      $.get('/admin/collections/' +  collectionId + '/edit.js');
+      return false;
+    });
+
+  });
+
+  $('#courses-select-list li').disableSelection();
+  $('#courses-select-list li').draggable({
+    cursor: 'move',
+    revert: true
+  });
+
+  $('body').on('click', '.remove-course', function() {
+    var courseId = $(this).data('course_id');
+    var collectionId = $(this).data('collection_id');
+    var tag = $(this);
+
+    $.ajax({
+      url: '/admin/collections/' + collectionId + '/remove_course.json?course_id=' + courseId,
+      type: 'PUT',
+      success: function(result) {
+        if(result.success) {
+          tag.parent().remove();
+          var collectionElem = $('#collection_' + collectionId);
+          var courseCount = collectionElem.find('~ span');
+          courseCount.text(parseInt(courseCount.text()) - 1);
+        } else {
+          window.showFlash(result.message, 'error');
+        }
+      }
+    });
+    return false;
+  });
+</script>

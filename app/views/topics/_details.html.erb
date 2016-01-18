@@ -1,0 +1,40 @@
+<td class="span1 avatar">
+  <%= image_tag topic.user.avatar(:icon), :class => 'thumbnail' %>
+</td>
+<td>
+  <div class="blocky">
+    <%= raw topic.content %>
+  </div>
+  <div class="pull-left muted">
+    <% if topic.user.teacher?(course.id) %>
+      <span class="label label-info teacher-badge" title="Teacher"
+            rel="tooltip"><%= t('courses.teacher_icon') %></span>
+    <% end %>
+    <%= link_to topic.user.username,
+                hash_path(user_path(topic.user, :type => params[:type])) %>
+    <%= t('topics.posted') %>
+    <%= timeago topic.updated_at %>
+  </div>
+  <div class="pull-right">
+    <% if topic.top? %>
+      <%= link_to raw("<i class='icon-share-alt'></i> #{t('topics.reply')}"),
+                  new_course_topic_path(course, params_to_pass.merge({
+                                        :parent_id => topic})),
+                  :id => "reply_#{topic.id}", :remote => true,
+                  :class => 'btn btn-mini btn-inverse' %>
+    <% end %>
+    <% if current_user == topic.user %>
+      <%= link_to raw("<i class='icon-edit'></i> #{t('topics.edit')}"),
+                  edit_course_topic_path(course, topic, params_to_pass),
+                  :id => "edit_#{topic.id}", :remote => true,
+                  :class => 'btn btn-mini' %>
+    <% end %>
+    <% if current_user.teacher?(course.id) %>
+      <%= link_to raw("<i class='icon-trash'></i> #{t('topics.delete')}"),
+                  course_topic_path(course, topic, params_to_pass),
+                  :method => :delete, :id => "delete_#{topic.id}",
+                  :class => 'btn btn-mini btn-danger', :remote => true,
+                  :confirm => t('site.confirm') %>
+    <% end %>
+  </div>
+</td>

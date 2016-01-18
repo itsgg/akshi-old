@@ -1,0 +1,14 @@
+<% if @success %>
+  <% if params[:admin_create].present? %>
+    location.hash = '<%= raw hash_path(admin_users_path(:type => 'admin',
+                                                        :subtype => 'admin_users',
+                                                        :touch => Time.now.to_i)) %>';
+  <% else %>
+    $(window).hashchange();
+  <% end %>
+<% else %>
+  $('#modal').html('<%= escape_javascript(
+                        render "users/new", :user => @user) %>');
+  <%= render 'shared/modal_flash' %>
+<% end %>
+window.initAjaxCSRF('<%= form_authenticity_token %>');

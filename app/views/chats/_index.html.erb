@@ -1,0 +1,45 @@
+<div id="chat">
+  <div class="toolbar">
+    <%= form_for [course, course.chats.new],
+                 :html => {:class => 'form', :remote => true} do |f| %>
+      <%= f.text_field :content, :class => 'pull-left' %>
+      <%= f.submit t('chats.chat'), :class => 'btn btn-primary pull-right',
+                  :id => 'post-chat' %>
+    <% end %>
+  </div>
+  <div class="messages">
+    <table class="table table-striped table-hover vertical-middle">
+      <tbody>
+        <% chats.each do |current_chat| %>
+          <%= render 'chats/chat', :chat => current_chat,
+                                   :course => course, :user => current_chat.user %>
+        <% end %>
+      </tbody>
+  </table>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $('#new_chat').submit(function() {
+    if($('#chat_content').val() == '') {
+      return false;
+    }
+  });
+
+  window.socket.emit('subscribe', '<%= course.id %>');
+  window.subscribeLiveSync('<%= course.id %>');
+
+  // XXX: Stupid hack to prevent multiple listeners
+  window.socket.removeAllListeners('chat');
+  window.socket.on('chat', function(data) {
+    if(data.courseId == <%= course.id %>) {
+      $.get('/courses/<%= course.id %>/chats/' + data.id + '.js');
+    }
+  });
+
+  $('#chat > .messages').perfectScrollbar({
+    wheelSpeed: 20,
+    wheelPropagation: false
+  });
+
+</script>

@@ -1,0 +1,61 @@
+# == Schema Information
+#
+# Table name: roles
+#
+#  id         :integer          not null, primary key
+#  name       :string(255)
+#  user_id    :integer
+#  course_id  :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
+gg_teacher_eng101:
+  name: teacher
+  user: gg
+  course: eng101
+
+gg_teacher_math101:
+  name: teacher
+  user: gg
+  course: math101
+
+akshi_teacher_comp101:
+  name: teacher
+  user: akshi
+  course: comp101
+
+gg_student_comp101:
+  name: student
+  user: gg
+  course: comp101
+
+aksh_student_eng101:
+  name: student
+  user: akshi
+  course: eng101
+
+akshi_student_math101:
+  name: student
+  user: akshi
+  course: math101
+
+gg_teacher_blah101:
+  name: teacher
+  user: gg
+  course: blah101
+
+akshi_student_blah101:
+  name: student
+  user: akshi
+  course: blah101
+
+gg_student_blah102:
+  name: student
+  user: gg
+  course: blah102
+
+akshi_teacher_blah102:
+  name: teacher
+  user: akshi
+  course: blah102

@@ -1,0 +1,72 @@
+# == Schema Information
+#
+# Table name: courses
+#
+#  id                          :integer          not null, primary key
+#  name                        :string(255)
+#  description                 :text(2147483647)
+#  category_id                 :integer
+#  created_at                  :datetime         not null
+#  updated_at                  :datetime         not null
+#  cover_file_name             :string(255)
+#  cover_content_type          :string(255)
+#  cover_file_size             :integer
+#  cover_updated_at            :datetime
+#  average_score               :float            default(0.0), not null
+#  status                      :string(255)      default("new")
+#  amount                      :float            default(0.0)
+#  currency                    :string(255)      default("INR")
+#  paid                        :boolean          default(FALSE)
+#  offline_payment_instruction :text
+#  features                    :text
+#  featured                    :boolean          default(FALSE)
+#
+
+eng101:
+  name: English 101
+  description: Basic course in English
+  category: english
+  created_at: <%= 1.day.ago %>
+  status: published
+  features: <%= Course::FEATURES %>
+
+math101:
+  name: Mathematics 101
+  description: Basic course in Mathematics
+  category: mathematics
+  created_at: <%= 2.days.ago %>
+  features: <%= Course::FEATURES %>
+
+comp101:
+  name: Computers 101
+  description: Basic course in Computers
+  category: computer
+  created_at: <%= 3.days.ago %>
+  status: published
+  features: <%= Course::FEATURES %>
+
+ruby101:
+  name: Ruby 101
+  description: Basic course on Ruby Language
+  category: computer
+  created_at: <%= 4.days.ago %>
+  status: published
+  amount: 100.00
+  paid: true
+  features: <%= Course::FEATURES %>
+
+blah101:
+  name: Blah 101
+  description: Course 1 without category
+  created_at: <%= 5.days.ago %>
+  status: published
+  amount: 100.00
+  paid: true
+  features: <%= Course::FEATURES %>
+
+blah102:
+  name: Blah 102
+  description: Course 2 without category
+  created_at: <%= 6.days.ago %>
+  status: published
+  features: <%= Course::FEATURES %>

@@ -1,0 +1,40 @@
+<div id="media-viewer">Loading the player...</div>
+
+<% ext_name = File.extname(lesson.upload.path) %>
+
+<script type="text/javascript">
+  jwplayer('media-viewer').setup({
+    streamer: 'rtmp://<%= request.host %>/vod',
+    width: '610',
+    rtmp: {
+      bufferlength: 10
+    },
+    flashplayer: '<%= asset_path('jwplayer.swf') %>',
+    menu: false,
+    'rtmp.tunneling': false,
+    skin: '<%= asset_path('lightrv5.zip') %>',
+    <% if params[:debug].present? %>
+      plugins: {
+        'qualitymonitor': {}
+      },
+    <% end %>
+    <% if Lesson::VIDEO_TYPE.include?(ext_name) %>
+      image: '<%= basename(lesson.upload.url) + '_thumbnail.png' %>',
+      levels: [
+        { bitrate: 75, file: '<%= basename(lesson.upload.url) + '_75.mp4' %>' },
+        { bitrate: 150, file: '<%= basename(lesson.upload.url) + '_150.mp4' %>' }
+      ],
+      height: '400'
+    <% else %>
+      levels: [
+        { bitrate: 16, file: '<%= basename(lesson.upload.url) + '_16.mp3' %>' },
+        { bitrate: 32, file: '<%= basename(lesson.upload.url) + '_32.mp3' %>' },
+        { bitrate: 64, file: '<%= basename(lesson.upload.url) + '_65.mp3' %>' },
+        { bitrate: 128, file: '<%= basename(lesson.upload.url) + '_128.mp3' %>' }
+      ],
+      height: '24',
+      icons: false,
+      controlbar: 'bottom'
+    <% end %>
+  });
+</script>

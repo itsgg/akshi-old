@@ -1,0 +1,13 @@
+<% if params[:change_slide].present? %>
+  $('#whiteboard-content').html('<%= escape_javascript(
+                                render "lives/whiteboard", :course => @course,
+                                :slides => @slides, :current_slide => @current_slide,
+                                :next_class => @next_class) %>');
+<% else %>
+  $('#content').html('<%= escape_javascript(
+                            render "lives/show", :course => @course,
+                            :chats => @chats, :slides => @slides,
+                            :current_slide => @current_slide,
+                            :next_class => @next_class) %>');
+<% end %>
+window.initAjaxCSRF('<%= form_authenticity_token %>');

@@ -1,0 +1,10 @@
+Hi <%= @user.fullname %>,
+
+The live class "<%= @schedule.description %>" starts at <%= @schedule.start_time.to_s :human %>.
+
+Go to the live class <%= hash_url(@live_url, @live_path) %>.
+
+You can disable new schedule notifications from your profile page.
+
+<%= t('site.title') %>,
+<%= t('site.subtitle') %>

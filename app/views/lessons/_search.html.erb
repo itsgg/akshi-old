@@ -1,0 +1,14 @@
+<%= form_tag course_lessons_path(course, :type => params[:type], :subject => 'All',
+                                 :subtype => params[:subtype], :filter => params[:filter]),
+             :class => 'form-search', :id => 'search-form' do %>
+  <%= text_field_tag 'q[name_cont]',
+                      params[:q].try(:[], 'name_cont'),
+                      :placeholder => t('lessons.search'),
+                      :class => 'span2 search-query',
+                      :maxlength => "30" %>
+  <%= link_to raw('<i class="icon-search"></i>'), nil, :class => 'btn search' %>
+<% end %>
+
+<script type="text/javascript">
+  $('#search-form').initSearch('name');
+</script>

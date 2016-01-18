@@ -1,0 +1,60 @@
+<%= render 'quizzes/menu', :quiz => quiz, :course => course,
+                           :active => 'edit' %>
+<%= form_for [course, quiz],
+             :html => {:class => 'form-horizontal', :remote => true} do |f| %>
+  <fieldset>
+    <%= hidden_field_tag 'type', params[:type] %>
+    <%= hidden_field_tag 'subtype', params[:subtype] %>
+    <%= hidden_field_tag 'page', params[:page] || 1 %>
+    <%= render :layout => 'shared/bootstrap_field',
+               :locals => {:object => quiz, :type => :name, :f => f} do %>
+      <%= f.text_field :name, :placeholder => t('quizzes.placeholders.name'),
+                       :maxlength => 80, :class => 'span4' %>
+    <% end %>
+    <%= render :layout => 'shared/bootstrap_field',
+               :locals => {:object => quiz,
+                           :type => :instruction, :f => f} do %>
+      <%= f.text_area :instruction,
+                      :placeholder => t('quizzes.placeholders.instruction'),
+                      :class => 'rich' %>
+    <% end %>
+    <%= render :layout => 'shared/bootstrap_field',
+               :locals => {:object => quiz,
+                           :type => :allow_review, :f => f} do %>
+      <%= f.check_box :allow_review %>
+    <% end %>
+    <%= render :layout => 'shared/bootstrap_field',
+               :locals => {:object => quiz,
+                           :type => :time_limit_in_minutes, :f => f} do %>
+      <%= f.text_field :time_limit_in_minutes %>
+    <% end %>
+    <%= render :layout => 'shared/bootstrap_field',
+               :locals => { :object => quiz, :type => :position, :f => f } do %>
+      <%= f.text_field :position, :placeholder => t('quizzes.placeholders.position'),
+                       :maxlength => 80 %>
+    <% end %>
+    <% unless course.list_of_subjects.blank? %>
+      <%= render :layout => 'shared/bootstrap_field',
+                :locals => {:object => quiz, 
+                            :type => :subjects, :f => f} do %>
+        <%= f.select :subject_ids, options_for_select(course.list_of_subjects, (quiz.subjects.map(&:id) unless quiz.subjects.blank?)),
+                         {}, {:class => 'rich', :multiple => true}  %>
+      <% end %>
+    <% end %>
+    <%= render :layout => 'shared/bootstrap_field',
+               :locals => {:object => quiz,
+                           :type => :published, :f => f} do %>
+      <%= f.check_box :published %>
+    <% end %>
+    <div class="control-group">
+      <div class="controls">
+        <%= f.submit t('quizzes.update'), :class => 'btn btn-primary' %>
+        <%= link_to t('quizzes.delete'),
+                    course_quiz_path(course, quiz, :type => params[:type],
+                                       :subtype => params[:subtype]),
+                    :remote => true, :class => 'btn btn-danger', :id => 'delete_quiz',
+                    :method => :delete, :confirm => t('site.confirm') %>
+      </div>
+    </div>
+  </fieldset>
+<% end %>

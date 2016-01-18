@@ -1,0 +1,21 @@
+<% if params[:viewas] == 'list' %>
+  <% disable_grid = true %>
+<% end %>
+
+<% if params[:viewas].blank? || params[:viewas] == 'grid' %>
+  <% disable_list = true %>
+<% end %>
+
+<%= link_to raw("<i class='icon-th #{'icon-gray' if disable_grid}'></i>"),
+            hash_path(courses_path({:type => params[:type],
+                                    :q => params[:q],
+                                    :category => params[:category],
+                                    :collection => params[:collection]})),
+            :id => 'viewas-grid', :rel => "tooltip", :title => "Grid view" %>
+<%= link_to raw("<i class='icon-th-list #{'icon-gray' if disable_list}'></i>"),
+            hash_path(courses_path({:type => params[:type],
+                                    :q => params[:q],
+                                    :category => params[:category],
+                                    :collection => params[:collection],
+                                    :viewas => 'list'})),
+            :id => 'viewas-list', :rel => "tooltip", :title => "List view" %>

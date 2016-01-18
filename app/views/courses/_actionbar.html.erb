@@ -1,0 +1,76 @@
+<div class="well well-small well-condensed">
+  <div class="pull-left">
+    <%= render 'courses/search' %>
+  </div>
+  <div class="pull-left">
+    <%= select_tag 'category',
+                   options_for_select([t('categories.all')] + categories.map(&:name) + [t('categories.none')],
+                                      params[:category]),
+                   :class => 'span2 rich' %>
+
+    <script>
+      $('#category').change(function() {
+        location.hash = window.hash_path('/courses', {
+          'category': $(this).val(),
+          'q[name_or_description_cont]': '<%= params[:q].try(:[], 'name_or_description_cont') %>',
+          'viewas': '<%= params[:viewas] %>',
+          'type': '<%= params[:type] %>',
+          'collection': '<%= params[:collection] %>'
+        })
+      });
+    </script>
+  </div>
+  <div class="pull-left filter">
+    <% if params[:q].try(:[], 'name_or_description_cont').present? %>
+      <span class="label label-info">
+        <%= link_to raw("&times;"),
+                    hash_path(courses_path(:type => params[:type],
+                                           :subtype => params[:subtype],
+                                           :viewas => params[:viewas],
+                                           :category => params[:category],
+                                           :q => nil,
+                                           :collection => params[:collection])),
+                    :class => 'close-tag', :rel => 'tooltip', :title => 'Remove filter' %>
+        <%= params[:q][:name_or_description_cont] %>
+      </span>
+    <% end %>
+    <% if params[:category].present? %>
+      <span class="label label-info">
+        <%= link_to raw("&times;"),
+                    hash_path(courses_path(:type => params[:type],
+                                           :subtype => params[:subtype],
+                                           :viewas => params[:viewas],
+                                           :category => nil,
+                                           :q => params[:q],
+                                           :collection => params[:collection])),
+                    :class => 'close-tag', :rel => 'tooltip', :title => 'Remove filter' %>
+        <%= params[:category] %>
+      </span>
+    <% end %>
+    <% if params[:collection].present? %>
+      <span class="label label-info">
+        <%= link_to raw("&times;"),
+                    hash_path(courses_path(:type => params[:type],
+                                           :subtype => params[:subtype],
+                                           :viewas => params[:viewas],
+                                           :category => params[:category],
+                                           :q => params[:q],
+                                           :collection => nil)),
+                    :class => 'close-tag', :rel => 'tooltip', :title => 'Remove filter' %>
+        <%= Collection.find(params[:collection]).name %>
+      </span>
+    <% end %>
+  </div>
+  <div class="pull-right icons">
+    <%= render 'courses/viewas' %>
+  </div>
+  <% if params[:type] == 'teach' %>
+    <div class="pull-right">
+      <%= link_to t('courses.new'),
+                  new_user_course_path(current_user, :type => params[:type]),
+                  :class => 'btn btn-primary',
+                  :remote => true %>
+    </div>
+  <% end %>
+  <span class="clear"></span>
+</div>

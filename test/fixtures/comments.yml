@@ -1,0 +1,31 @@
+# == Schema Information
+#
+# Table name: comments
+#
+#  id         :integer          not null, primary key
+#  post_id    :integer
+#  content    :text
+#  email      :string(255)
+#  status     :string(255)      default("review")
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  user_id    :integer
+#
+
+first_comment:
+  post: post_one
+  content: Test comment one
+  email: akshi@akshi.com
+  status: review
+
+second_comment:
+  post: post_one
+  content: Test comment two
+  email: gg@akshi.com
+  status: approved
+
+third_comment:
+  post: post_one
+  content: Test comment three
+  email: test@akshi.com
+  status: rejected

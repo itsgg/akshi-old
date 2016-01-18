@@ -1,0 +1,100 @@
+<div class="well well-small well-condensed">
+    <div class="pull-left">
+      <%= render 'lessons/search', :course => course %>
+    </div>
+    <div class="pull-left filter">
+      <% if params[:q].try(:[], 'name_cont').present? %>
+        <span class="label label-info">
+          <%= link_to raw("&times;"),
+                      hash_path(course_lessons_path(course,
+                                             :subject => "All",
+                                             :type => params[:type],
+                                             :subtype => params[:subtype],
+                                             :filter => params[:filter],
+                                             :q => nil)),
+                      :class => 'close-tag', :rel => 'tooltip', :title => 'Remove filter' %>
+          <%= params[:q][:name_cont] %>
+        </span>
+      <% end %>
+      <% if params[:filter].present? %>
+        <span class="label label-info">
+          <%= link_to raw("&times;"),
+                      hash_path(course_lessons_path(course,
+                                             :subject => "All",
+                                             :type => params[:type],
+                                             :subtype => params[:subtype],
+                                             :filter => nil,
+                                             :q => params[:q])),
+                      :class => 'close-tag', :rel => 'tooltip', :title => 'Remove filter' %>
+          <%= params[:filter] %>
+        </span>
+      <% end %>
+    </div>
+    <div class="pull-left">
+      <%= select_tag 'subject_lesson_filter',
+                      options_for_select(course.list_subjects, params[:subjects_filter]),
+                      :class => 'span2 rich' %>
+    </div>
+
+    <div class="pull-left filter">
+      <% if params[:q].try(:[], 'name_cont').present? %>
+        <span class="label label-info">
+          <%= link_to raw("&times;"),
+                      hash_path(course_lessons_path(course,
+                                             :subject => "All",
+                                             :type => params[:type],
+                                             :subtype => params[:subtype],
+                                             :subjects_filter => params[:subjects_filter],
+                                             :q => nil)),
+                      :class => 'close-tag', :rel => 'tooltip', :title => 'Remove filter' %>
+          <%= params[:q][:name_cont] %>
+        </span>
+      <% end %>
+      <% if params[:subjects_filter].present? %>
+        <span class="label label-info">
+          <%= link_to raw("&times;"),
+                      hash_path(course_lessons_path(course,
+                                             :subject => "All",
+                                             :type => params[:type],
+                                             :subtype => params[:subtype],
+                                             :subjects_filter => nil,
+                                             :q => params[:q])),
+                      :class => 'close-tag', :rel => 'tooltip', :title => 'Remove filter' %>
+          <%= params[:subjects_filter] %>
+        </span>
+      <% end %>
+    </div>
+
+    <div class="pull-right">
+      <% if current_user.teacher?(course.id) %>
+        <%= link_to t('lessons.new'), new_course_lesson_path(course,
+                                       :subject => "All",
+                                       :type => params[:type],
+                                       :subtype => params[:subtype]),
+                    :class => 'btn btn-primary',
+                    :remote => true %>
+      <% end %>
+    </div>
+</div>
+
+<script>
+  $('#lesson_filter').change(function() {
+    location.hash = window.hash_path('<%= course_lessons_path(course) %>', {
+      'filter': $(this).val(),
+      'q[name_cont]': '<%= params[:q].try(:[], 'name_cont') %>',
+      'subject': 'All',
+      'type': '<%= params[:type] %>',
+      'subtype': '<%= params[:subtype] %>'
+    });
+  });
+
+  $('#subject_lesson_filter').change(function() {
+    location.hash = window.hash_path('<%= course_lessons_path(course) %>', {
+      'subjects_filter': $(this).val(),
+      'q[name_cont]': '<%= params[:q].try(:[], 'name_cont') %>',
+      'subject': $(this).val(),
+      'type': '<%= params[:type] %>',
+      'subtype': '<%= params[:subtype] %>'
+    });
+  });
+</script>

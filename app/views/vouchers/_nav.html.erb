@@ -1,0 +1,13 @@
+<ul class="nav nav-tabs">
+  <li class="<%= menu_class('available') %>">
+    <%= link_to t('vouchers.available'),
+                course_vouchers_path(course, :voucher_type => :available),
+                :remote => true %>
+  </li>
+
+  <li class="<%= menu_class('used') %>">
+    <%= link_to t('vouchers.used'),
+                course_vouchers_path(course, :voucher_type => :used),
+                :remote => true %>
+  </li>
+</ul>

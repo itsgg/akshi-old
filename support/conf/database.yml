@@ -1,0 +1,36 @@
+development:
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: akshi_development
+  pool: 5
+  username: root
+  password: Flipendo123
+
+test:
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: akshi_test
+  pool: 5
+  username: root
+  password: Flipendo123
+
+production:
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: akshi_production
+  pool: 5
+  username: root
+  password: Flipendo123
+
+staging:
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: akshi_staging
+  pool: 5
+  username: root
+  password: Flipendo123
+

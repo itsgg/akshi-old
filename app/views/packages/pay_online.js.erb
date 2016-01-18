@@ -1,0 +1,11 @@
+$('#modal').html('<%= escape_javascript(
+                        render "packages/pay_online",
+                                :collection => @collection,
+                                :account_id => @account_id,
+                                :payment_mode => @payment_mode,
+                                :reference_number => @reference_number,
+                                :secure_hash => @secure_hash,
+                                :touch => Time.now.to_i) %>');
+$('#modal').modal();
+<%= render 'shared/modal_flash' %>
+window.initAjaxCSRF('<%= form_authenticity_token %>');

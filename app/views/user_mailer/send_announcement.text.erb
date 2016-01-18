@@ -1,0 +1,12 @@
+Hi <%= @user.fullname %>,
+
+<%= @announcement.user.fullname %> posted the following announcement in '<%= @announcement.course.name %>'
+
+<%= raw @announcement.brief_content %>
+
+Go to the announcement <%= hash_url(@announcements_url, @announcements_path) + '?subtype=announcements&type=learn' %>.
+
+You can disable new announcement notifications from your profile page.
+
+<%= t('site.title') %>,
+<%= t('site.subtitle') %>

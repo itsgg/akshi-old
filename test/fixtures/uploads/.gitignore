@@ -1,0 +1,14 @@
+temp
+
+# Ignore media converter outputs
+test_16.mp3
+test_32.mp3
+test_64.mp3
+test_128.mp3
+test_75.mp4
+test_150.mp4
+test_240.mp4
+test_360.mp4
+test_480.mp4
+test_thumbnail.png
+test.converted

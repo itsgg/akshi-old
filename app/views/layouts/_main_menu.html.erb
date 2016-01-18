@@ -1,0 +1,40 @@
+<ul class="nav">
+  <li class="<%= menu_class('home') %>">
+    <%= menu_link 'home', params %>
+  </li>
+  <li class="<%= menu_class('learn') %>">
+    <%= menu_link 'learn', params %>
+  </li>
+  <li class="<%= menu_class('teach') %>">
+    <%= menu_link 'teach', params %>
+  </li>
+  <% if logged_in_as_admin? %>
+    <li class="<%= menu_class('admin') %>">
+      <%= link_to t('account.menu.admin'),
+                 hash_path(admin_categories_path :type => 'admin',
+                                                 :subtype => 'admin_categories') %>
+    </li>
+  <% end %>
+</ul>
+
+<ul class="nav pull-right">
+  <li class="divider-vertical"></li>
+  <% if logged_in? %>
+    <li class="<%= menu_class('account') %>">
+      <%= link_to raw("#{image_tag(current_user.avatar(:icon),
+                      :style => "height: 20px; width: 20px;")} #{current_user.username}"),
+                      hash_path(edit_user_path(current_user)) %>
+    </li>
+    <li>
+      <%= link_to t('main_menu.logout'), session_path(:current, :type => nil),
+                    :remote => true, :method => 'delete' %>
+    </li>
+  <% else %>
+    <li class="<%= menu_class('register') %>">
+      <%= link_to t('main_menu.register'), register_path, :remote => true %>
+    </li>
+    <li class="<%= menu_class('login') %>">
+      <%= link_to t('main_menu.login'), login_path, :remote => true %>
+    </li>
+  <% end %>
+</ul>

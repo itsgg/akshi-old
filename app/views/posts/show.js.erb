@@ -1,0 +1,7 @@
+$('#content').html('<%= escape_javascript(
+                   render "posts/show", :posts => @posts, :post => @post,
+                   :comments => @comments,
+                   :params_to_pass => @params_to_pass) %>')
+$('#main-menu').html('<%= escape_javascript(render "layouts/main_menu") %>');
+<%= render 'shared/page_flash' %>
+window.initAjaxCSRF('<%= form_authenticity_token %>');

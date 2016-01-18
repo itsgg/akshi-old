@@ -1,0 +1,27 @@
+# == Schema Information
+#
+# Table name: announcements
+#
+#  id         :integer          not null, primary key
+#  content    :text(2147483647)
+#  course_id  :integer
+#  user_id    :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  subject_id :integer
+#
+
+one:
+  content: Test announcement one
+  course: math101
+  user: gg
+
+two:
+  content: Test announcement two
+  course: eng101
+  user: gg
+
+three:
+  content: Test announcement three
+  course: comp101
+  user: akshi

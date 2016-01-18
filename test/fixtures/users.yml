@@ -1,0 +1,53 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id                   :integer          not null, primary key
+#  username             :string(255)
+#  fullname             :string(255)
+#  email                :string(255)
+#  about                :text(2147483647)
+#  password_digest      :string(255)
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  avatar_file_name     :string(255)
+#  avatar_content_type  :string(255)
+#  avatar_file_size     :integer
+#  avatar_updated_at    :datetime
+#  reset_password_token :string(255)
+#  authentication_token :string(255)
+#  announcement_notify  :boolean          default(TRUE)
+#  admin                :boolean          default(FALSE)
+#  discussion_notify    :boolean          default(TRUE)
+#  blocked              :boolean          default(FALSE)
+#  session_id           :text
+#  schedule_notify      :boolean          default(TRUE)
+#  phone_number         :string(255)
+#  state_city           :string(255)
+#  institution          :string(255)
+#  date_of_birth        :string(255)
+#
+
+<% require 'digest/md5' %>
+
+admin:
+  username: admin
+  fullname: Admin askhi
+  email: admin@askhi.com
+  about: Administrator
+  admin: true
+  password_digest: <%= Digest::MD5.hexdigest('password') %>
+
+gg:
+  username: gg
+  fullname: Ganesh Gunasegaran
+  email: gg@akshi.com
+  about: Rockstar
+  password_digest: <%= Digest::MD5.hexdigest('password') %>
+
+akshi:
+  username: akshi
+  fullname: Akshitha Ganesh
+  email: akshi@askhi.com
+  about: Kidstar
+  password_digest: <%= Digest::MD5.hexdigest('password') %>

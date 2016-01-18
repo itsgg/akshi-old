@@ -1,0 +1,133 @@
+<%= form_for user,
+            :html => {:class => 'form-horizontal', :remote => true} do |f| %>
+  <div class="row">
+    <div class="span8">
+      <fieldset>
+        <%= render :layout => 'shared/bootstrap_field',
+                   :locals => {:object => user, :type => :email,
+                               :f => f} do %>
+          <%= f.text_field :email, :class => 'span4',
+                           :placeholder => t('register.email')  %>
+        <% end %>
+
+        <%= render :layout => 'shared/bootstrap_field',
+                   :locals => {:object => user, :type => :phone_number,
+                               :f => f} do %>
+          <%= f.text_field :phone_number, :class => 'span4',
+                           :placeholder => t('register.phone_number')  %>
+        <% end %>
+
+        <%= render :layout => 'shared/bootstrap_field',
+                   :locals => {:object => user, :type => :fullname,
+                               :f => f} do %>
+          <%= f.text_field :fullname, :class => 'span4',
+                           :placeholder => t('register.fullname'),
+                           :maxlength => 80 %>
+        <% end %>
+
+        <%= render :layout => 'shared/bootstrap_field',
+                   :locals => {:object => user, :type => :date_of_birth,
+                               :f => f} do %>
+          <%= f.text_field :date_of_birth, :class => 'span4',:maxlength => 80,
+                           :placeholder => t('register.dob'), :class=> "dp", 
+                           :style=>"width:286px" %>
+        <% end %>
+
+        <%= render :layout => 'shared/bootstrap_field',
+                   :locals => {:object => user, :type => "Institution/School",
+                               :f => f} do %>
+          <%= f.text_field :institution, :class => 'span4',
+                           :placeholder => t('register.institution'),
+                           :maxlength => 80 %>
+        <% end %>
+
+        <%= render :layout => 'shared/bootstrap_field',
+                   :locals => {:object => user, :type => "State/City",
+                               :f => f} do %>
+          <%= f.text_field :state_city, :class => 'span4',
+                           :placeholder => t('register.state'),
+                           :maxlength => 80 %>
+        <% end %>
+
+        <%= render :layout => 'shared/bootstrap_field',
+                   :locals => {:object => user, :type => :password,
+                               :f => f} do %>
+          <%= f.password_field :password, :class => 'span4',
+                               :placeholder => t('register.password') %>
+        <% end %>
+
+        <%= render :layout => 'shared/bootstrap_field',
+                   :locals => {:object => user, :f => f,
+                               :type => :password_confirmation} do %>
+          <%= f.password_field :password_confirmation, :class => 'span4',
+                               :placeholder =>
+                               t('register.password_confirmation') %>
+        <% end %>
+
+        <% if user.persisted? %>
+          <%= render :layout => 'shared/bootstrap_field',
+                     :locals => {:object => user, :type => :about,
+                                 :f => f} do %>
+            <%= f.text_area :about, :class => "rich",
+                            :placeholder => t('register.about') %>
+          <% end %>
+        <% end %>
+
+        <div class="control-group">
+          <label class="control-label">API Token</label>
+          <div class="controls">
+            <%= current_user.authentication_token %>
+            <%= link_to 'Reset', user_path(current_user,
+                                   :operation => 'reset_authentication_token'),
+                        :class => 'btn btn-mini', :method => 'put',
+                        :remote => true %>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">
+            <%= t('users.notification_settings') %>
+          </label>
+          <div class="controls">
+            <p>
+              <%= f.check_box :announcement_notify %>
+              <%= t('users.announcement_notify') %>
+            </p>
+            <p>
+              <%= f.check_box :discussion_notify %>
+              <%= t('users.discussion_notify') %>
+            </p>
+            <p>
+              <%= f.check_box :schedule_notify %>
+              <%= t('users.schedule_notify') %>
+            </p>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <div class="controls">
+            <%= f.submit t('account.submit'), :class => 'btn btn-primary scroll-top' %>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+    <div class="span4">
+      <p>
+        <% if user.avatar_errors? %>
+          <%= image_tag old_avatar, :class => 'img-polaroid' %>
+        <% else %>
+          <%= image_tag user.avatar(:large), :class => 'img-polaroid' %>
+        <% end %>
+      </p>
+      <p>
+        <%= f.file_field :avatar, :accept => 'image/*', :class => 'rich',
+                         'data-filesize_limit' => Setting.upload.image_limit,
+                         'data-authenticity_token' => form_authenticity_token,
+                         'data-session_key' => cookies['akshi_session'] %>
+      </p>
+      <span class="help-inline error">
+        <%= user.errors[:avatar_file_size].first %>
+      </span>
+    </div>
+  </div>
+<% end %>

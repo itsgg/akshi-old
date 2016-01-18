@@ -1,0 +1,30 @@
+# == Schema Information
+#
+# Table name: ratings
+#
+#  id           :integer          not null, primary key
+#  owner_id     :integer
+#  ratable_id   :integer
+#  ratable_type :string(255)
+#  score        :float
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#
+
+one:
+  owner: akshi
+  ratable: math101
+  ratable_type: Course
+  score: 4.5
+
+two:
+  owner: gg
+  ratable: comp101
+  ratable_type: Course
+  score: 2
+
+three:
+  owner: akshi
+  ratable: math101
+  ratable_type: Course
+  score: 3.5

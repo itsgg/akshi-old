@@ -1,0 +1,49 @@
+<%= render 'courses/menu', :course => course %>
+<%= render 'subjects/actionbar', :course => course %>
+
+<% if subjects.present? %>
+  <table class="table table-striped table-hover" id="subjects">
+    <tbody>
+      <% subjects.each do |subject| %>
+        <tr id="category_<%= subject.id %>">
+          <td style="vertical-align: middle;">
+            <div class="pull-left" style="padding: 0 5px 0 5px;">
+              <i class="icon-reorder icon-gray" />
+            </div>
+            <%= subject.name %>
+          </td>
+          <td style="width: 150px; vertical-align: middle;">
+            <%= link_to t('subjects.edit'), edit_course_subject_path(course, subject),
+                        :class => 'btn', :remote => true %>
+            <%= link_to t('subjects.delete'), course_subject_path(course, subject),
+                        :class => 'btn btn-danger', :method => :delete,
+                        :remote => true, :confirm => t('site.confirm') %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <div class="pull-right">
+    <%= page_navigation_links(subjects) %>
+  </div>
+<% else %>
+  <div class="alert">
+    <%= t('subjects.no_subjects') %>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+  $('#subjects tbody').sortable({
+    cursor: 'move',
+    stop: function(event, ui) {
+      $.ajax({
+        url: '<%= sort_course_subjects_path %>',
+        type: 'POST',
+        data: '_method=put&' + $(this).sortable('serialize')
+      });
+    }
+  });
+  $('#subjects tbody').disableSelection();
+</script>
+
+

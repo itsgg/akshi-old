@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:bridge="bridge.*"
+			   width="175" height="30" backgroundAlpha="0.95" backgroundColor="#EEEEEE"
+			   creationComplete="init()">
+	<fx:Declarations>
+		<bridge:FABridge />
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import File.MimeTypeMap;
+			
+			import mx.core.FlexGlobals;
+			import mx.utils.Base64Encoder;
+			
+			private var file:FileReference;
+			private var fileFilter:Array = [];
+			private var divId:String;
+
+			private function fileSelected(event:Event):void {
+				var allowedFileSize:int = 200000;
+				if(file.size > allowedFileSize) {
+					ExternalInterface.call('window.flashExec',
+						'window.showFlash("File size should be less than ' + allowedFileSize + ' bytes", "error")');
+				} else {
+					file.load();	
+				}
+				
+			}
+
+			private function fileLoaded(event:Event):void {
+				var output:String;
+				var encoder:Base64Encoder = new Base64Encoder();
+				encoder.encodeBytes(file.data, 0, file.data.length);
+				var mimeType:String = MimeTypeMap.getMimeType(file.name.split('.')[1]);
+				output = "data:" + mimeType + ";base64," + encoder.toString();
+				ExternalInterface.call('window.flashExec', 
+					'window.insertEditorImage("' + divId + '", "' + escape(output) +'")');
+			}
+
+			private function initListeners():void {
+				file.addEventListener(Event.SELECT, fileSelected);
+				file.addEventListener(Event.COMPLETE, fileLoaded);
+				chooseFile.addEventListener(MouseEvent.CLICK, function(event:MouseEvent):void {
+					file.browse(fileFilter);
+				});
+			}
+
+			private function init():void {
+				file = new FileReference();
+				fileFilter = [new FileFilter("Images", "*.jpg;*.gif;*.png")];
+				divId = FlexGlobals.topLevelApplication.parameters.id;
+				initListeners();
+			}
+		]]>
+	</fx:Script>
+	<s:Button x="3" y="5" label="Choose File" id="chooseFile" />
+	<s:Label x="93" y="10" text="No file chosen" id="choosenFile" />
+</s:Application>

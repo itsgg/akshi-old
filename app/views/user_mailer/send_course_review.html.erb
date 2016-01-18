@@ -1,0 +1,17 @@
+<p>Hi <%= @admin.fullname %>,</p>
+
+<p>
+  <%= @course.teachers.first.fullname %> published the course '<%= @course.name %>'.
+  Course will be viewable by public only when you approve it.
+</p>
+
+<p>
+  <%= link_to "Go to 'Course Review'",
+              hash_url(admin_courses_url(:type => 'admin', :subtype => 'courses'),
+                       admin_courses_path(:type => 'admin', :subtype => 'courses')) %>
+</p>
+
+<p>
+  <%= t('site.title') %>, <br />
+  <%= t('site.subtitle') %>
+</p>

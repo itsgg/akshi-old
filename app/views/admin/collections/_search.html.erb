@@ -1,0 +1,14 @@
+<%= form_tag admin_collections_path(:type => params[:type],
+                                    :subtype => params[:subtype], :filter => params[:filter]),
+                                    :class => 'form-search', :id => 'search-form' do %>
+  <%= text_field_tag 'q[name_or_description_cont]',
+                      params[:q].try(:[], 'name_or_description_cont'),
+                      :placeholder => t('courses.search'),
+                      :class => 'span2 search-query',
+                      :maxlength => "30" %>
+  <%= link_to raw('<i class="icon-search"></i>'), nil, :class => 'btn search' %>
+<% end %>
+
+<script type="text/javascript">
+  $('#search-form').initSearch('name_or_description');
+</script>

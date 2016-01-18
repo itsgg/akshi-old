@@ -1,0 +1,881 @@
+// Bootstrap customization
+$navbarBackground: #194989;
+$navbarBackgroundHighlight: #14579c;
+$navbarLinkColor: #fff;
+$navbarLinkColorHover: #fff;
+$navbarLinkColorActive: #fff;
+$navbarText: #fff;
+$navbarLinkBackgroundHover: #194989;
+$navbarLinkBackgroundActive: #143f7a;
+$navbarBrandColor: #fff;
+$headingsFontWeight: normal;
+$headingsColor: #14579c;
+$textColor: #333333;
+$linkColor: #0088cc;
+$btnBackground: #f1f1f1;
+$btnPrimaryBackground: #3a87ad;
+$btnInfoBackground: #00a8e4;
+$btnSuccessBackground: #80bf4a;
+$btnWarningBackground: #ff9d05;
+$btnDangerBackground: #d65559;
+$btnInverseBackground: #555555;
+$tableBorder: #f3f3f3;
+$tableBackgroundAccent: #fbfbfb;
+$tableBackgroundHover: #faffff;
+
+@import "bootstrap";
+@import "font-awesome";
+
+body {
+  background-color: #eee;
+  background-image: url('/assets/bg.png');
+  background-attachment: fixed;
+}
+
+// Goodbye curves
+// XXX: Temprorarily commented because of chrome scroll issue
+// https://code.google.com/p/chromium/issues/detail?id=170882
+.bootstrap-select .btn,
+.pagination ul > li:first-child > a,
+.pagination ul > li:first-child > span,
+.pagination ul > li:last-child > a,
+.pagination ul > li:last-child > span,
+input.search-query,
+.btn,
+.btn-group > .btn-group > .btn,
+.btn-group .btn,
+.btn-group > .btn:first-child,
+.btn-group > .btn:last-child,
+.dropdown-menu,
+.progress,
+select,
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+.uneditable-input,
+.thumbnail,
+.nav-tabs > li > a,
+.tabs-left .nav-tabs > li > a,
+.modal-footer,
+.label,
+.well,
+.tooltip-inner,
+.alert,
+code,
+pre {
+  @include border-radius(0);
+}
+
+.btn-toolbar {
+  margin-top: 0;
+}
+
+.btn, input.search-query {
+  border: 1px solid #ddd;
+}
+
+.btn-primary {
+  border: 1px solid #317394;
+}
+
+.btn-info {
+  border: 1px solid #008fc2;
+}
+
+.btn-success {
+  border: 1px solid #6fab3c;
+}
+
+.btn-warning {
+  border: 1px solid #e28900;
+}
+
+.btn-danger {
+  border: 1px solid #cf3a3e;
+}
+
+.btn-inverse {
+  border: 1px solid #3c3c3c;
+}
+
+.page-container {
+  background: #ffffff;
+  min-height: 550px;
+  padding: 10px;
+  border-left: 4px solid rgba(220, 220, 220, .2);
+  border-right: 4px solid rgba(220, 220, 220, .2);
+  border-bottom: 4px solid rgba(220, 220, 220, .2);
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+
+.navbar .brand {
+  background: url('/assets/logo.png') no-repeat left center;
+  height: 20px;
+  width: 60px;
+  margin-left: -10px;
+}
+
+.page-header {
+  margin: 0;
+  padding-bottom: 0;
+  margin-bottom: 10px;
+  h4 {
+    line-height: 1em;
+  }
+}
+
+.footer-container {
+  margin: 5px auto;
+}
+
+input[type=file] {
+  line-height: 1em;
+}
+
+#loader {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  z-index: 10000;
+}
+
+.canvas-container, .insert_link-container, .upload_image-container {
+  position: absolute;
+  margin: 0 auto;
+  text-align: center;
+  @include translucent-background(#eee, .95);
+  @include box-shadow(1px 1px 3px #ddd);
+  border: 1px solid #ddd;
+  z-index: 10003;
+  canvas {
+    display: block;
+    background-color: #fafafa;
+  }
+  a {
+    margin: 5px;
+  }
+}
+
+.insert_link-container {
+  padding: 5px 0;
+  input {
+    width: 160px;
+  }
+}
+
+.upload_image-container {
+  padding: 5px 0;
+}
+
+.flash {
+  position: absolute;
+  top: 0;
+  width: 200px;
+  margin: 0 auto;
+  left: 50%;
+  margin-left: -120px;
+  text-align: center;
+  background-color: #fcf8e3;
+}
+
+.flash-info {
+  background-color: #d9edf7;
+}
+
+.flash-success {
+  background-color: #dff0d8;
+}
+
+.flash-error {
+  background-color: #f2dede;
+}
+
+.sidebar-nav-condensed {
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-nav-condensed a,
+.sidebar-nav-condensed .nav-header {
+  margin: 0 -16px;
+}
+
+.sidebar-nav-condensed .active > a,
+.sidebar-nav-condensed .active > a:hover {
+  color: #0088cc;
+  background-color: #d9edf7;
+}
+
+.thumbnails .thumbnail {
+  border: 1px solid #eee;
+  position: relative;
+  background-color: #fcfcfc;
+  >.caption {
+    padding: 2px;
+    margin: 0;
+    height: 60px;
+    word-break: break-word;
+    text-align: center;
+    overflow: hidden;
+  }
+  >.rating {
+    padding: 5px 60px;
+  }
+}
+
+.thumbnails.team .thumbnail {
+  >.caption {
+    height: 40px;
+  }
+  h5 {
+    margin: 0;
+    padding: 0;
+    font-size: 90%;
+  }
+  p {
+    margin: 0;
+    padding: 0;
+    font-size: 90%;
+  }
+}
+
+.popover {
+  word-break: break-word;
+}
+
+.popover-title {
+  background-color: #fff;
+  border: 0;
+}
+
+.well {
+  background: #fafafa;
+  border: 1px solid #f3f3f3;
+}
+
+.well-condensed {
+  padding: 4px;
+  min-height: 30px;
+}
+
+.icons {
+  padding: 5px;
+}
+
+.course-icon {
+  width: 55px;
+  position: relative;
+  > img {
+    width: 54px;
+    height: 40px;
+  }
+}
+
+.course-thumbnail {
+  width: 65px;
+}
+
+.rating-icon {
+  width: 100px;
+}
+
+.user-icon {
+  width: 40px;
+  > img {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.course-details, .comment-details {
+  margin: 5px 10px;
+}
+
+.tooltip {
+  word-wrap: break-word;
+}
+
+.navbar-static-top {
+  border-top: 4px solid #143f7a;
+}
+
+.navbar-fixed-top .nav li a > img {
+  width: 20px;
+  height: 20px;
+}
+
+.well-condensed .btn {
+  margin-right: 10px;
+}
+
+.tabs-left {
+  .nav-tabs {
+    min-height: 400px;
+    width: 100%;
+  }
+}
+
+.clear {
+  clear: both;
+}
+
+.icons a {
+  text-decoration: none;
+  color: #333;
+}
+
+.icon-gray {
+  opacity: 0.25;
+}
+
+.middle {
+  vertical-align: middle;
+}
+
+a[data-wysihtml5-command-value="red"],
+a[data-wysihtml5-command-value="red"]:hover {
+  color: red;
+}
+
+a[data-wysihtml5-command-value="green"],
+a[data-wysihtml5-command-value="green"]:hover {
+  color: green;
+}
+
+a[data-wysihtml5-command-value="blue"],
+a[data-wysihtml5-command-value="blue"]:hover {
+  color: blue;
+}
+
+a[data-wysihtml5-command-value="gray"],
+a[data-wysihtml5-command-value="gray"]:hover {
+  color: gray;
+}
+
+a[data-wysihtml5-command-value="black"],
+a[data-wysihtml5-command-value="black"]:hover {
+  color: black;
+}
+
+.wysihtml5-command-active, .wysihtml5-action-active {
+  background-image: none;
+  outline: 0;
+  -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+td {
+  border-top: 1px solid #f3f3f3;
+  border-bottom: 1px solid #f3f3f3;
+}
+
+.center {
+  text-align: center;
+}
+
+td.avatar {
+  word-wrap: break-word;
+  text-align: center;
+}
+
+.well-reply {
+  padding-bottom: 0;
+}
+
+.upload-cancel {
+  margin-left: 5px;
+}
+
+.error {
+  color: #b94a48;
+}
+
+.whiteboard {
+  height: 470px;
+  width: 620px;
+  border: 1px solid #eee;
+  background-color: #000;
+}
+
+#stream {
+  height: 225px;
+  border: 1px solid #f7f7f7;
+  margin-bottom: 5px;
+}
+
+.controls {
+  padding: 5px 0;
+}
+
+.deleted {
+  color: #e00;
+  font-style: italic;
+}
+
+.teacher-badge {
+  margin-top: 5px;
+  text-align: center;
+}
+
+.lesson-progress {
+  width: 90%;
+  margin: 0 auto;
+}
+
+#chat {
+  height: 295px;
+  border: 1px solid #f7f7f7;
+  margin-bottom: 5px;
+  .messages {
+    height: 255px;
+    overflow: hidden;
+    position: absolute;
+    width: 300px;
+    table {
+      margin-bottom: 0;
+    }
+  }
+  .toolbar {
+    background-color: #fafafa;
+    padding: 5px;
+    height: 30px;
+    input[type=text] {
+      width: 210px;
+      margin: 0;
+    }
+  }
+}
+
+#document_viewer {
+  width: 610px;
+  height: 500px;
+  background: #333;
+}
+
+a.label {
+  color: #fff;
+  font-weight: normal;
+}
+
+.nav-tabs li:not(.active) {
+  a:hover, a:active {
+    background-color: #f6f6f6;
+  }
+}
+
+.tabs-left .nav-tabs li:not(.active) {
+  a:hover, a:active {
+    background-color: #f9f9f9;
+  }
+}
+
+.question {
+  background-color: #fafafa;
+  padding: 10px;
+  border: 1px solid #eee;
+  margin-bottom: 10px;
+}
+
+.drawable {
+  cursor: crosshair;
+}
+
+#question {
+  .actionbar {
+    margin-bottom: 10px;
+  }
+  .nav {
+    line-height: 2.5em;
+  }
+}
+
+// Tabbar customization
+.nav-tabs > .active > a, .nav-tabs > .active > a:hover {
+  border-color: #d9edf7 #d9edf7 transparent #d9edf7;
+  background-color: #def4ff;
+  color: #08C;
+}
+
+.nav-tabs > li > a:hover {
+  border: 1px solid #eee;
+  border-bottom: 0;
+}
+
+.nav-tabs {
+  border-bottom: 1px solid #d9edf7;
+}
+
+.tabs-left > .nav-tabs .active > a, .tabs-left > .nav-tabs .active > a:hover {
+  margin-right: 0;
+  border-color: #d9edf7 transparent #d9edf7 #d9edf7;
+  background-color: #def4ff;
+}
+
+.tabs-below > .nav-tabs .active > a, .tabs-left > .nav-tabs .active > a:hover {
+  margin-top: 0;
+  border-color: transparent #d9edf7 #d9edf7 #d9edf7;
+  background-color: #def4ff;
+}
+
+.tabs-left > .nav-tabs {
+  border-right: 1px solid #d9edf7;
+}
+
+.tabs-below > .nav-tabs {
+  border-top: 1px solid #d9edf7;
+}
+
+.tabs-left > .nav-tabs > li > a:hover {
+  margin-right: 0;
+  border: 1px solid #eee;
+  border-right: 0;
+}
+
+.tabs-below > .nav-tabs > li > a:hover {
+  margin-top: 0;
+  border: 1px solid #eee;
+}
+
+.modal-header {
+  padding: 5px 15px;
+  background-color: #194989;
+  h1, h2, h3, h4, h5 {
+    color: #fff;
+  }
+  button.close {
+    color: #fff;
+  }
+}
+
+.modal {
+  form {
+    margin: 0;
+  }
+  .form-horizontal.form-horizontal-mini {
+    .control-label {
+      width: 120px;
+    }
+    .controls {
+      margin-left: 130px;
+    }
+  }
+}
+
+.alert {
+  h1 {
+    color: #c09853;
+  }
+}
+
+.progress-container {
+  margin-top: 10px;
+}
+
+.student-rating {
+  padding: 10px 87px;
+  width: 400px;
+}
+
+.number-prefix {
+  font-size: 120%;
+}
+
+// XXX: Why the heck is glyphicons-halflings-white.png shown?
+.nav > .active > a > [class^="icon-"], .nav > .active > a > [class*=" icon-"] {
+  background-image: none;
+}
+
+.nav-list {
+  overflow: hidden;
+}
+
+.tag {
+  padding: 0 2px;
+  border: 1px solid #eee;
+  background-color: #f9f9f9;
+  margin: 0 5px;
+  float: left;
+}
+
+a.tag {
+  color: #08C;
+}
+
+.tag.active {
+  border: 1px solid #c8dce5;
+  background-color: #d9edf7;
+}
+
+.navigation .btn {
+  margin: 2px 0;
+}
+
+abbr.timeago {
+  border: 0;
+}
+
+#modal textarea.rich {
+  width: 300px;
+  height: 200px;
+}
+
+textarea.rich {
+  width: 285px;
+  height: 200px;
+}
+
+.nav-tabs {
+  word-break: break-word;
+}
+
+.chat-content, .answer-footer {
+  margin-top: 5px;
+}
+
+.schedule {
+  margin-top: -3px;
+  margin-right: -30px;
+}
+
+.upcoming {
+  width: 450px;
+}
+
+#upcoming-classes {
+  height: 470px;
+}
+
+.schedule-description, .schedule-start {
+  width: 120px;
+}
+
+.intro {
+  border-bottom: 1px solid #bce8f1;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: 1px solid #eaf0f4;
+  background-color: #f0f6fa;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.btn-group > .btn-group > .btn,
+.btn-group ~ .btn {
+  margin-left: -1px;
+  margin-top: 1px;
+}
+
+.blocky {
+  display: block;
+}
+
+.nav, .alert {
+  margin-bottom: 10px;
+}
+
+.control-group, .form-horizontal .control-group {
+  margin-bottom: 0;
+}
+
+.post-content, .topic-content {
+  margin: 5px 0;
+}
+
+#content {
+  img {
+    max-width: 800px;
+  }
+  .span8 img {
+    max-width: 500px;
+  }
+}
+
+.wysihtml5-commands-disabled {
+  cursor: default;
+  background-image: none;
+  opacity: 0.65;
+  filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+
+#topics {
+  width: 710px;
+  margin-left: 10px;
+}
+
+#courses-select-list {
+  list-style: none;
+  margin-left: 0;
+  li {
+    padding: 4px;
+  }
+}
+
+a.close-tag {
+  color: #fff;
+  font-size: 16px;
+  &:hover {
+    text-decoration: none;
+    color: #d9edf7;
+  }
+}
+
+.label {
+  margin-bottom: 2px;
+}
+
+a.delete-collections:hover, a#add-collection:hover {
+  text-decoration: none;
+}
+
+.modal {
+  overflow: visible;
+  .modal-body {
+    overflow-y: visible;
+  }
+
+  .modal-body.scroll {
+    overflow-y: scroll;
+  }
+}
+
+.pad-left {
+  padding-left: 10px;
+}
+
+.strong {
+  font-weight: bold;
+}
+
+.filter {
+  padding: 5px;
+}
+
+.selected-collection {
+  text-decoration: underline;
+}
+
+#voucher-link {
+  margin-left: 10px;
+}
+
+ul#features-list {
+  list-style: none;
+  margin-left: 0;
+  .checkbox {
+    padding-left: 5px;
+  }
+}
+
+#quiz-timer {
+  text-align: center;
+  #timer {
+    font-size: 200%;
+    margin-bottom: 20px;
+  }
+}
+
+.translation_missing {
+  border: 1px solid #f00;
+  background-color: #f33;
+  color: #fff;
+}
+
+#broadcast-container {
+  margin-bottom: 5px;
+}
+
+.broadcast-button {
+  margin-bottom: 5px;
+}
+
+.intro {
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: 1px solid #d9edf7;
+  background: #fff;
+  padding: 0;
+  margin: 0;
+  margin-bottom: 10px;
+  .page-header {
+    padding: 10px;
+    background-color: #def4ff;
+    h4 {
+      margin: 0;
+      padding: 0;
+      font-size: 15px;
+    }
+  }
+
+  .page-content {
+    padding: 0 10px 10px 10px;
+  }
+}
+
+#site-intro {
+  height: 228px;
+}
+
+.label-info {
+  background-color: #00a8e4;
+}
+
+.collection {
+  display: block;
+  line-height: 1.8em;
+}
+
+.course-collections {
+  margin-left: 30px;
+}
+
+.carousel-caption {
+  padding: 5px;
+}
+
+.carousel-caption p {
+  text-align: center;
+}
+
+.carousel-control {
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  font-size: 30px;
+  font-weight: 200;
+  line-height: 15px;
+}
+
+#loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #000;
+  opacity: 0.7;
+  display: none;
+  min-height: 1000px;
+}
+
+.datepicker {
+  z-index:1151;
+}

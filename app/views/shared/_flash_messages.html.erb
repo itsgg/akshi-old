@@ -1,0 +1,7 @@
+<% flash.each do |key, value| %>
+  <% normalized_key = key.to_s == 'notice' ? 'info' : key %>
+  <div class="alert alert-<%= normalized_key %>
+              flash flash-<%= normalized_key %> hide">
+    <%= value %>
+  </div>
+<% end %>

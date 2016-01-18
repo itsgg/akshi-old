@@ -1,0 +1,75 @@
+<%= form_for user,
+             :html => {:class => 'form-horizontal', :remote => true} do |f| %>
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <h4><%= t('register.register') %></h4>
+  </div>
+  <div class="modal-body">
+    <fieldset>
+      <%= hidden_field_tag 'admin_create', params[:admin_create] %>
+      <%= render :layout => 'shared/bootstrap_field',
+                 :locals => {:object => user, :type => :username,
+                             :f => f} do %>
+        <%= f.text_field :username, :placeholder => t('register.username'),
+                         :maxlength => 15 %>
+      <% end %>
+
+      <%= render :layout => 'shared/bootstrap_field',
+                 :locals => {:object => user, :type => :email, :f => f} do %>
+        <%= f.text_field :email, :placeholder => t('register.email') %>
+      <% end %>
+
+      <%= render :layout => 'shared/bootstrap_field',
+                 :locals => {:object => user, :type => :phone_number,
+                             :f => f } do %>
+        <%= f.text_field :phone_number,
+                :placeholder => t('register.phone_number') %>
+      <% end %>
+
+      <%= render :layout => 'shared/bootstrap_field',
+                 :locals => {:object => user, :type => :fullname,
+                              :f => f} do %>
+        <%= f.text_field :fullname, :placeholder => t('register.fullname') %>
+      <% end %>
+
+      <%= render :layout => 'shared/bootstrap_field',
+                 :locals => {:object => user, :type => :date_of_birth,
+                              :f => f} do %>
+        <%= f.text_field :date_of_birth, :placeholder => t('register.dob'), :class=> "dp" %>
+      <% end %>
+
+      <%= render :layout => 'shared/bootstrap_field',
+                 :locals => {:object => user, :type => "Institution/School",
+                             :f => f } do %>
+        <%= f.text_field :institution,
+                :placeholder => t('register.institution') %>
+      <% end %>
+
+      <%= render :layout => 'shared/bootstrap_field',
+                 :locals => {:object => user, :type => "State/City",
+                             :f => f } do %>
+        <%= f.text_field :state_city,
+                :placeholder => t('register.state') %>
+      <% end %>
+      
+      <%= render :layout => 'shared/bootstrap_field',
+                 :locals => {:object => user, :type => :password, :f => f} do %>
+        <%= f.password_field :password,
+                             :placeholder => t('register.password') %>
+      <% end %>
+
+      <%= render :layout => 'shared/bootstrap_field',
+                 :locals => {:object => user, :type => :password_confirmation,
+                             :f => f } do %>
+        <%= f.password_field :password_confirmation,
+                :placeholder => t('register.password_confirmation') %>
+      <% end %>
+    </fieldset>
+  </div>
+  <div class="modal-footer">
+    <%= f.submit t('register.register'), :class => 'btn btn-primary' %>
+    <button class="btn" data-dismiss="modal">
+      <%= t('site.close') %>
+    </button>
+  </div>
+<% end %>

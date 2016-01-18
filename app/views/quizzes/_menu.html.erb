@@ -1,0 +1,38 @@
+<% if current_user.teacher?(course.id) %>
+  <ul class="nav nav-tabs">
+    <li class="<%= 'active' if active == 'edit' %>">
+      <%= link_to 'Edit',
+                  hash_path(course_quiz_path(course, quiz, :type => params[:type],
+                                                           :subtype => params[:subtype], 
+                                                           :subject => params[:subject])) %>
+    </li>
+    <li class="<%= 'active' if active == 'questions' %>" >
+      <%= link_to 'Questions', hash_path(quiz_questions_path(quiz, :type => params[:type],
+                                                                   :subtype => params[:subtype], 
+                                                                   :subject => params[:subject])) %>
+    </li>
+    <li class="<%= 'active' if active == 'results' %>">
+      <%= link_to 'Results', hash_path(results_course_quiz_path(course, quiz,
+                                                                :type => params[:type],
+                                                                :subtype => params[:subtype], 
+                                                                :subject => params[:subject])) %>
+    </li>
+  </ul>
+<% else %>
+  <ul class="nav nav-tabs">
+    <li class="<%= 'active' if active == 'result' %>">
+      <%= link_to 'Result',
+                  hash_path(course_quiz_path(course, quiz, :type => params[:type],
+                                                           :subtype => params[:subtype], 
+                                                           :subject => params[:subject])) %>
+    </li>
+    <% if quiz.allow_review? %>
+      <li class="<%= 'active' if active == 'review' %>">
+        <%= link_to 'Review',
+                    hash_path(quiz_questions_path(quiz, :type => params[:type],
+                                                        :subtype => params[:subtype], 
+                                                        :subject => params[:subject])) %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

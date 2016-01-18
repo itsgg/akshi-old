@@ -1,0 +1,48 @@
+<ul class="breadcrumb">
+  <li>
+    <%= link_to t('page.home'), hash_path(root_path),
+                :class => 'scroll-top' %>
+    <span class="divider">/</span>
+  </li>
+  <li class="active">
+    <%= t('page.blog') %>
+  </li>
+</ul>
+
+<%= render 'posts/actionbar' %>
+
+<% if posts.present? %>
+  <table class="table table-striped table-hover vertical-middle">
+    <tbody>
+      <% posts.each do |post| %>
+        <tr class="row">
+          <td class="span1 avatar">
+            <%= image_tag post.user.avatar(:icon), :class => 'thumbnail' %>
+          </td>
+          <td>
+            <div class="post-title">
+              <%= link_to post.title, hash_path(post_path(post)),
+                          :id => "post_#{post.id}" %>
+            </div>
+            <div class="post-content">
+              <%= truncate strip_html(post.brief_content), :length => 120 %>
+            </div>
+            <div class="post-meta muted">
+              <%= link_to post.user.username,
+                          hash_path(user_path(post.user, :type => params[:type])) %>
+              <%= t('topics.posted') %>
+              <%= timeago post.updated_at %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <div class="pull-right">
+    <%= page_navigation_links(posts) %>
+  </div>
+<% else %>
+  <div class="alert">
+    <%= t('posts.no_posts') %>
+  </div>
+<% end %>

@@ -1,0 +1,5 @@
+$('#lessons').html('<%= escape_javascript(
+                        render "lessons/preview", :lesson => @lesson,
+                        :course => @course, :lessons => @lessons) %>');
+<%= render 'shared/page_flash' %>
+window.initAjaxCSRF('<%= form_authenticity_token %>');

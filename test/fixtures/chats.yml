@@ -1,0 +1,36 @@
+# == Schema Information
+#
+# Table name: chats
+#
+#  id         :integer          not null, primary key
+#  content    :text(2147483647)
+#  course_id  :integer
+#  user_id    :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
+one:
+  content: This is some chat message one
+  course: eng101
+  user: akshi
+
+two:
+  content: This is some chat message two
+  course: eng101
+  user: gg
+
+three:
+  content: This is some chat message three
+  course: eng101
+  user: akshi
+
+four:
+  content: This is some chat message four
+  course: math101
+  user: gg
+
+five:
+  content: This is some chat message five
+  course: math101
+  user: akshi

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         xmlns:mx="library://ns.adobe.com/flex/mx"
+         xmlns:bridge="bridge.*"
+         width="175" height="30"
+         creationComplete="init()">
+
+  <fx:Declarations>
+    <bridge:FABridge />
+  </fx:Declarations>
+
+  <fx:Script>
+    <![CDATA[
+      import mx.core.FlexGlobals;
+
+      private var divId:String;
+      private var accept:String;
+      private var file:FileReference;
+      private var fileFilter:Array = [];
+      private var actionUrl:String;
+      private var fileParam:String;
+      private var allowedFileSize:String;
+
+      public function cancelUpload():void {
+        ExternalInterface.call('window.flashExec',
+          'window.removeProgressbar("' + divId + '")');
+        file.cancel();
+        ExternalInterface.call('window.flashExec',
+          'window.showFlash("Upload cancelled", "info")');
+      }
+
+      private function uploadProgress(event:ProgressEvent):void {
+        var percent:int = Math.round(event.bytesLoaded * 100/event.bytesTotal);
+        ExternalInterface.call('window.flashExec',
+          'window.setProgressbar("' + divId +'", "' + percent + '")');
+      }
+
+      private function uploadComplete(event:DataEvent):void {
+        var response:Object = JSON.parse(event.data);
+        if(response.status == "failure") {
+          ExternalInterface.call('window.flashExec',
+            'window.showFlash("' + response.message + '", "error")');
+        } else {
+          ExternalInterface.call('window.flashExec',
+            'window.showFlash("' + response.message + '", "info")');
+          ExternalInterface.call('window.flashExec',
+            '$(window).hashchange()');
+        }
+      }
+
+      private function uploadError(event:IOErrorEvent):void {
+        ExternalInterface.call('window.flashExec',
+          'window.removeProgressBar("' + divId + '")');
+        ExternalInterface.call('window.flashExec',
+          'window.showFlash("Upload failed", "error")');
+      }
+
+      public function fileSelected(event:Event):void {
+        if(file.size > parseInt(allowedFileSize)) {
+          ExternalInterface.call('window.flashExec',
+            'window.showFlash("File size should be less than ' + allowedFileSize + ' bytes", "error")');
+        } else {
+          ExternalInterface.call('window.flashExec',
+            'window.showProgressbar("' + divId +'")');
+          var request:URLRequest = new URLRequest();
+          request.url = actionUrl;
+          file.upload(request, fileParam);
+        }
+      }
+
+      private function initJavascriptCallbacks():void {
+        ExternalInterface.addCallback('cancelUpload', cancelUpload);
+      }
+
+      private function initListeners():void {
+        file.addEventListener(Event.SELECT, fileSelected);
+        file.addEventListener(ProgressEvent.PROGRESS, uploadProgress);
+        file.addEventListener(DataEvent.UPLOAD_COMPLETE_DATA, uploadComplete);
+        file.addEventListener(IOErrorEvent.IO_ERROR, uploadError);
+        chooseFile.addEventListener(MouseEvent.CLICK, function(event:MouseEvent):void {
+          file.browse(fileFilter);
+        });
+      }
+
+      private function init():void {
+        file = new FileReference();
+        divId = FlexGlobals.topLevelApplication.parameters.id;
+        accept = FlexGlobals.topLevelApplication.parameters.accept;
+        actionUrl = FlexGlobals.topLevelApplication.parameters.actionUrl;
+        fileParam = FlexGlobals.topLevelApplication.parameters.name;
+        allowedFileSize = FlexGlobals.topLevelApplication.parameters.allowedFileSize;
+
+        if(accept == 'image/*') {
+          fileFilter = [new FileFilter("Images", "*.jpg;*.gif;*.png")];
+        }
+        initListeners();
+        initJavascriptCallbacks();
+      }
+    ]]>
+  </fx:Script>
+  <s:Button x="3" y="5" label="Choose File" id="chooseFile" />
+  <s:Label x="93" y="10" text="No file chosen" id="choosenFile" />
+</s:Application>

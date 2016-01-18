@@ -1,0 +1,42 @@
+<% if root_collections.present? %>
+  <% root_collections.each do |root| %>
+    <div class="intro">
+      <div class="page-header">
+        <h4><%= root.name %></h4>
+      </div>
+      <div class="page-content">
+        <% children_ids(root).each do |child_id| %>
+          <div class="collection">
+            <% child = Collection.find(child_id) %>
+            <% (child.depth - 1).times do %>
+              <span class="pad-left" />
+            <% end %>
+            -
+            <% if child.courses.present? %>
+              <% if current_collection == child %>
+                <span class="selected-collection">
+                  <%= child.name %>
+                </span>
+              <% else %>
+                <%= link_to child.name,
+                        hash_path(package_path(child.id, 
+                                               :type => params[:type],
+                                               :subtype => 'details',
+                                               :viewas => params[:viewas],
+                                               :category => params[:category],
+                                                       :q => params[:q],
+                                                       :collection => child.id)) %>
+              <% end %>
+            <% else %>
+              <%= child.name %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+<% else %>
+  <div class="alert">
+    <%= t('collections.no_collections') %>
+  </div>
+<% end %>

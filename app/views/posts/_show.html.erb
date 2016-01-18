@@ -1,0 +1,100 @@
+<ul class="breadcrumb">
+  <li>
+    <%= link_to t('page.home'), hash_path(root_path),
+                :class => 'scroll-top' %>
+    <span class="divider">/</span>
+  </li>
+  <li>
+    <%= link_to t('page.blog'), hash_path(posts_path),
+                :class => 'scroll-top' %>
+    <span class="divider">/</span>
+  </li>
+  <li class="active">
+    <%= post.title %>
+  </li>
+</ul>
+
+<% if post.present? %>
+  <table class="table table-striped table-hover vertical-middle">
+    <tbody>
+        <tr class="row" id="post<%= post.id %>">
+          <td class="span1 avatar">
+            <%= image_tag post.user.avatar(:icon), :class => 'thumbnail' %>
+          </td>
+          <td>
+            <div class="page-header">
+              <h4><%= post.title %></h4>
+            </div>
+            <div class="post-content">
+              <%= raw post.content %>
+            </div>
+            <div class="post-meta pull-left muted">
+              <%= link_to post.user.username,
+                          hash_path(user_path(post.user, :type => params[:type])) %>
+              <%= t('topics.posted') %>
+              <%= timeago post.updated_at %>
+            </div>
+            <div class="pull-right">
+                <%= link_to raw("<i class='icon-share-alt'></i> #{t('posts.comment')}"),
+                    new_post_comment_path(post, :page => params[:page]),
+                    :id => "reply_#{post.id}", :remote => true,
+                    :class => 'btn btn-mini btn-inverse' %>
+                <% if (current_user && current_user.admin?) %>
+                  <%= link_to raw("<i class='icon-edit'></i> #{t('posts.edit')}"),
+                              edit_post_path(post),
+                              :id => "edit_#{post.id}", :remote => true,
+                              :class => 'btn btn-mini' %>
+                  <%= link_to raw("<i class='icon-trash'></i> #{t('posts.delete')}"),
+                              post_path(post),
+                              :method => :delete, :id => "delete_#{post.id}",
+                              :class => 'btn btn-mini btn-danger', :remote => true,
+                              :confirm => t('site.confirm') %>
+                <% end %>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+  <div class="page-header">
+    <h4>Comments</h4>
+  </div>
+  <% if comments.present? %>
+    <table class="table table-striped table-hover vertical-middle">
+      <tbody>
+        <% comments.each do |comment| %>
+          <tr class="row" id="post<%= comment.id %>">
+            <td class="user-icon">
+                <% if comment.user.present? %>
+                  <%= image_tag comment.user.avatar(:icon), :class => 'thumbnail' %>
+                <% else %>
+                  <%= image_tag 'users-placeholder-icon.png', :class => 'thumbnail' %>
+                <% end %>
+            </td>
+            <td>
+              <div class="blocky">
+                <%= raw comment.content %>
+              </div>
+              <div class="pull-left muted">
+                <% if comment.user.present? %>
+                  <%= link_to comment.user.fullname, hash_path(user_path(comment.user,
+                                                      :type => params[:type])) %>
+                <% else %>
+                  <%= link_to comment.email, "mailto:#{comment.email}", :type => params[:type] %>
+                <% end %>
+                <%= t('topics.posted') %>
+                <%= timeago comment.updated_at %>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <div class="alert">
+      <%= t('comments.no_comments') %>
+    </div>
+  <% end %>
+  <div class="pull-right">
+    <%= page_navigation_links(comments) %>
+  </div>
+<% end %>

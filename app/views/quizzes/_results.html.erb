@@ -1,0 +1,41 @@
+<%= render 'courses/menu', :course => course %>
+<%= render 'quizzes/actionbar', :course => course %>
+
+<% if quizzes.present? %>
+  <div class="row">
+    <div class="tabs-left span4">
+      <%= render 'quizzes/nav', :course => course, :quiz => quiz,
+                 :quizzes => quizzes %>
+    </div>
+    <div class="span8" id="results">
+      <%= render 'quizzes/menu', :quiz => quiz, :course => course,
+                                 :active => 'results' %>
+      <% if scores.blank? %>
+        <div class="alert">
+          <%= t('.none_taken') %>
+        </div>
+      <% else %>
+        <table class="table table-striped table-hover vertical-middle">
+          <tr>
+            <th><%= t('.rank') %></th>
+            <th><%= t('.score') %></th>
+            <th><%= t('.user') %></th>
+          </tr>
+          <% scores.each do |score| %>
+            <tr>
+              <td><%= quiz.rank(score.user.id) %></td>
+              <td><%= score.percent %></td>
+              <td>
+                <%= link_to score.user.username,
+                            hash_path(user_path(score.user, :type => params[:type])) %>
+              </td>
+            </tr>
+          <% end %>
+        </table>
+        <div class="pull-right">
+          <%= page_navigation_links(scores, :param_name => 'results_page') %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>

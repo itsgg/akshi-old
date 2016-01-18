@@ -1,0 +1,19 @@
+<% if chat.persisted? && !user.blank? %>
+  <tr>
+    <td>
+      <div class="muted">
+        <% if user.teacher?(course.id) %>
+          <span class="label label-info" title="Teacher"
+                rel="tooltip"><%= t('courses.teacher_icon') %></span>
+        <% end %>
+        <%= link_to user.username,
+                    hash_path(user_path(user)) %>
+        <%= t('chats.posted') %>
+        <%= timeago chat.created_at %>
+      </div>
+      <div class="chat-content">
+        <%= chat.content %>
+      </div>
+    </td>
+  </tr>
+<% end %>

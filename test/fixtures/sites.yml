@@ -1,0 +1,12 @@
+# == Schema Information
+#
+# Table name: sites
+#
+#  id           :integer          not null, primary key
+#  broadcasting :boolean          default(FALSE)
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#
+
+default:
+  broadcasting: false

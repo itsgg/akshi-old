@@ -1,0 +1,43 @@
+<%= render 'courses/menu', :course => course %>
+<%= render 'topics/actionbar', :course => course %>
+<% if topics.present? %>
+  <table class="table table-striped table-hover vertical-middle">
+    <tbody>
+      <% topics.each do |topic| next if topic.user.blank? %>
+        <tr class="row" id="topic<%= topic.id %>">
+          <td class="span1 avatar">
+            <%= image_tag topic.user.avatar(:icon), :class => 'thumbnail' %>
+          </td>
+          <td>
+            <div class="topic-title">
+              <%= link_to topic.title, hash_path(course_topic_path(course, topic,
+                                                                           :type => params[:type],
+                                                                           :subtype => params[:subtype])) %>
+            </div>
+            <div class="topic-content">
+              <%= truncate strip_html(topic.brief_content), :length => 120 %>
+            </div>
+            <div class="topic-meta muted">
+              <% if topic.user.teacher?(course.id) %>
+                <span class="label label-info teacher-badge" title="Teacher"
+                      rel="tooltip"><%= t('courses.teacher_icon') %></span>
+              <% end %>
+              <%= link_to topic.user.username,
+                          hash_path(user_path(topic.user, :type => params[:type])) %>
+              <%= t('topics.posted') %>
+              <%= timeago topic.updated_at %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <div class="pull-right">
+    <%= page_navigation_links(topics) %>
+  </div>
+
+<% else %>
+  <div class="alert">
+    <%= t('topics.no_topics') %>
+  </div>
+<% end %>

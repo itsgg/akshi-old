@@ -1,0 +1,9 @@
+<% if @success %>
+  $(window).hashchange();
+<% else %>
+  $('#modal').html('<%= escape_javascript(
+                          render "announcements/edit", :course => @course,
+                                 :announcement => @announcement) %>');
+  <%= render 'shared/modal_flash' %>
+<% end %>
+window.initAjaxCSRF('<%= form_authenticity_token %>');

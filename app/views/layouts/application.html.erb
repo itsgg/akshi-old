@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>
+      <%= t('site.title') %> - <%= yield(:title).present? ? yield(:title) : t('site.subtitle') %>
+    </title>
+    <link rel="shortcut icon" type="image/ico" href="<%= asset_path('favicon.ico') %>" />
+    <%= stylesheet_link_tag "application", :media => "all" %>
+    <%= javascript_include_tag "application" %>
+    <%= csrf_meta_tags %>
+    <script type="text/javascript"
+      src="/javascripts/mathjax/MathJax.js?config=TeX-AMS_HTML-full.js">
+    </script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {
+            inlineMath: [ ['$','$'] ],
+            displayMath: [ ['$$','$$'] ],
+            processEscapes: true
+          },
+          messageStyle: 'none',
+          menuSettings: {
+            context: 'browser'
+          }
+        });
+    </script>
+  </head>
+  <body>
+    <%= render 'layouts/header' %>
+    <div id="flash"></div>
+    <div class="container page-container" id="content">
+      <noscript>
+        <div class="alert alert-error">
+          <p>
+            Akshi is a social learning platform, which connects teachers, students
+            and content authors to provide a seamless learning experience.
+          </p>
+          <p>
+            Javascript should be enabled to access this site.
+          </p>
+        </div>
+      </noscript>
+      <%= yield %>
+    </div>
+    <%= render 'layouts/footer' %>
+  </body>
+  <%= render 'layouts/socket_io' %>
+  <%= render 'layouts/google_analytics' %>
+  <%= render 'layouts/zopim' %>
+</html>

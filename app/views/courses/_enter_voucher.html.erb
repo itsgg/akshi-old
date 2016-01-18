@@ -1,0 +1,23 @@
+<%= form_tag enroll_by_voucher_user_course_path(current_user, course),
+             :class => 'form-horizontal', :remote => true  do %>
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <h4><%= t('courses.enter_voucher_code') %></h4>
+  </div>
+  <div class="modal-body">
+    <fieldset>
+      <div class="control-group">
+        <%= label_tag 'voucher_code', nil, :class => 'control-label' %>
+        <div class="controls">
+          <%= text_field_tag 'voucher_code' %>
+        </div>
+      </div>
+    </fieldset>
+  </div>
+  <div class="modal-footer">
+    <%= submit_tag t('courses.enroll'), :class => 'btn btn-primary' %>
+    <button class="btn" data-dismiss="modal">
+      <%= t('site.close') %>
+    </button>
+  </div>
+<% end %>

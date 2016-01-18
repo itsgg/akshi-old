@@ -1,0 +1,61 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal">×</button>
+  <h4><%= t('schedules.upcoming') %></h4>
+</div>
+<div class="modal-body scroll">
+  <% if current_user.teacher?(course.id) %>
+    <div class="well well-condensed">
+      <%= form_for [course, schedule],
+                   :html => {:class => 'form-inline', :remote => true} do |f| %>
+        <%= f.text_field :description, :placeholder => t('schedules.placeholders.class_description'), :class => course.lessons.blank? ? 'schedule-description' : '' %>
+        <%= f.text_field :start_time, :placeholder => t('schedules.placeholders.start_time'),
+                         :class => course.lessons.blank? ? 'schedule-start' : '' %>
+        <%= f.select :mode, options_for_select([ "LIVE", "RECORDED" ], "LIVE"), {},
+                     {:class => course.lessons.blank? ? 'schedule-start' : ''} %>
+        <% unless course.lessons.blank? %>
+          <%= f.select :lesson_id, options_from_collection_for_select(course.lessons, 'id', 'name') %>
+        <% end %>
+        <%= f.submit 'Schedule', :class => 'btn btn-primary pull-right', :style=> course.lessons.blank? ? '' : "margin-right:60px" %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if schedules.blank? %>
+    <div class="alert">
+      <%= t('schedules.no_classes') %>
+    </div>
+  <% else %>
+    <table class="table table-striped table-hover">
+      <tbody>
+        <tr>
+          <th>Description</th>
+          <th>Start time</th>
+          <% if current_user.teacher?(course.id) %>
+            <th style="width: 50px; text-align: center;">Action</th>
+          <% end %>
+        </tr>
+        <% schedules.each do |current_schedule| %>
+          <% if current_schedule.persisted? %>
+            <tr>
+              <td><%= current_schedule.description %></td>
+              <td><%= current_schedule.start_time.to_s :human %></td>
+              <% if current_user.teacher?(course.id) %>
+                <td>
+                    <%= link_to 'Delete', course_schedule_path(course, current_schedule),
+                                :class => 'btn btn-danger', :remote => true,
+                                :method => :delete,
+                                :confirm => t('site.confirm') %>
+                </td>
+              <% end %>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+</div>
+<div class="modal-footer">
+  <button class="btn" data-dismiss="modal">
+    <%= t('site.close') %>
+  </button>
+</div>

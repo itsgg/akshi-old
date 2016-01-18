@@ -1,0 +1,9 @@
+{
+  "name": "socket_server",
+  "description": "Runs socket.io for akshi.com",
+  "dependencies": {
+    "socket.io": ">= 0.9.14",
+    "npid": ">= 0.3.2",
+    "optimist": ">= 0.5.2"
+  }
+}

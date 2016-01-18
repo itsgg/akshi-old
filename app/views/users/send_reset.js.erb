@@ -1,0 +1,7 @@
+<% if @success %>
+  $('#modal').modal('hide');
+<% else %>
+  $('#modal').html('<%= escape_javascript(render "users/forgot_password") %>');
+  <%= render 'shared/modal_flash' %>
+<% end %>
+window.initAjaxCSRF('<%= form_authenticity_token %>');

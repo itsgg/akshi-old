@@ -1,0 +1,11 @@
+<div class="control-group <%= 'error' if object.errors[type].present? %>">
+  <% unless defined?(hide_label) && hide_label %>
+    <%= f.label type, :class => 'control-label' %>
+  <% end %>
+  <div class="controls">
+    <%= yield %>
+    <span class="help-inline">
+      <%= object.errors[type].first %>
+    </span>
+  </div>
+</div>

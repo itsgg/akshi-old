@@ -1,0 +1,22 @@
+<div class="well well-small well-condensed">
+  <div class="pull-left">
+    <%= render '/admin/users/search' %>
+  </div>
+  <div class="pull-left filter">
+    <% if params[:q].try(:[], 'fullname_or_username_or_email_cont').present? %>
+      <span class="label label-info">
+        <%= link_to raw("&times;"),
+                    hash_path(admin_users_path(:type => params[:type],
+                                              :subtype => params[:subtype],
+                                              :filter => params[:filter],
+                                              :q => nil)),
+                    :class => 'close-tag', :rel => 'tooltip', :title => 'Remove filter' %>
+        <%= params[:q][:fullname_or_username_or_email_cont] %>
+      </span>
+    <% end %>
+  </div>
+  <div class="pull-right">
+    <%= link_to t('users.add'), new_user_path(:admin_create => true),
+                :class => 'btn', :remote => true %>
+  </div>
+</div>

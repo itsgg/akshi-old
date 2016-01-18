@@ -1,0 +1,57 @@
+# == Schema Information
+#
+# Table name: topics
+#
+#  id         :integer          not null, primary key
+#  content    :text(2147483647)
+#  course_id  :integer
+#  user_id    :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  parent_id  :integer
+#  title      :string(255)
+#  subject_id :integer
+#
+
+one:
+  title: one
+  content: This is a sample topic one
+  course: math101
+  user: gg
+
+two:
+  title: two
+  content: This is a sample topic two
+  course: math101
+  user: gg
+
+three:
+  title: three
+  content: This is a sample topic three
+  course: eng101
+  user: akshi
+
+four:
+  title: four
+  content: This is a sample topic four
+  course: comp101
+  user: akshi
+
+five:
+  title: five
+  content: This is a sample topic five
+  course: comp101
+  user: gg
+
+one_one:
+  content: This is a sample subtopic one
+  course: math101
+  user: gg
+  parent: one
+
+one_two:
+  content: This is a sample subtopic two
+  course: math101
+  user: gg
+  parent: one
+

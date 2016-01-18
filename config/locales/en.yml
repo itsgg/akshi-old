@@ -1,0 +1,514 @@
+# Sample localization file for English. Add more files in this directory for other locales.
+# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
+en:
+  activerecord:
+    errors:
+      messages:
+        blank: is required
+        taken: is taken
+        too_short: min %{count} characters
+        too_long: max %{count} characters
+        invalid: is invalid
+        confirmation: doesn't match
+        inclusion: is invalid
+
+  will_paginate:
+    page_entries_info:
+      single_page:
+        zero: ''
+        one: ''
+        other: ''
+        zero: "No %{model} found"
+        one: "1 %{model}"
+        other: "all %{count} %{model}"
+      single_page_html:
+        zero: ''
+        one: ''
+        other: ''
+        # zero: "No %{model} found"
+        # one: "1 %{model}"
+        # other: "All&nbsp;%{count} %{model}"
+      multi_page: "%{model} %{from} - %{to} of %{count}"
+      multi_page_html: "%{model}&nbsp;%{from}&nbsp;-&nbsp;%{to} of %{count}"
+
+  user_mailer:
+    reset_password:
+      subject: Akshi - Password reset instruction
+    send_announcement:
+      subject: Akshi - Announcement notification
+    send_schedule:
+      subject: Akshi - Live class notification
+    send_discussion:
+      subject: Akshi - Discussion notification
+    send_course_review:
+      subject: Akshi - Admin Course Review notification
+    send_comment_review:
+      subject: Akshi - Admin Comment Review notification
+
+  helpers:
+    label:
+      user:
+        username: Username
+        password: Password
+        password_confirmation: Repeat password
+        fullname: Fullname
+        email: Email
+
+  site:
+    title: Akshi
+    subtitle: Learning unleashed...
+    unauthorized: Unauthorized
+    ago: Ago
+    close: Close
+    none: None
+    confirm: Are you sure?
+    accept: Accept
+    reject: Reject
+    approve: Approve
+    updated: Updated
+    update_failed: Update failed
+    access_denied: Access denied
+    recent_posts: Recent posts
+
+  footer:
+    copyright: Akshi. All rights reserved.
+
+  page:
+    home: Home
+    about: About
+    contact: Contact
+    blog: Blog
+    terms_and_conditions: Terms & conditions
+    privacy_policy: Privacy policy
+
+  title:
+    contact: Contact
+    about: About
+
+  main_menu:
+    home: Home
+    learn: Learn
+    teach: Teach
+    register: Register
+    login: Login
+    account: Account
+    logout: Logout
+
+  register:
+    register: Register
+    registered: Registered
+    registration_failed: Registration failed
+    username: 2-15 characters
+    email: user@example.com
+    fullname: 2-80 characters
+    password: 4-20 characters
+    password_confirmation: 4-20 characters
+    phone_number: Phone Number
+    dob: Date of Birth
+    institution: Institution / School
+    state: State / City
+    about: Brief description about yourself
+
+  login:
+    login: Login
+    logged_in: Logged in
+    invalid: Invalid username/password
+    logged_out: Logged out
+    login_required: Login to continue
+    admin_login_required: You are not authorized to view this page
+    blocked: User blocked. Contact admin.
+
+  packages:
+    badge:
+      not_published: Unpublished
+      learning: Learning
+      teaching: Teaching
+
+  courses:
+    popular: Popular courses
+    featured: Featured courses
+    browse: Browse
+    no_courses: No courses found
+    no_featured_courses: No featured courses found
+    no_description: No course information
+    search: Search
+    enrolled: Enrolled
+    enroll_failed: Enroll failed
+    enroll: Enroll
+    enroll_by_voucher: Enroll by voucher
+    pay_online: Pay online
+    pay_offline: Pay offline
+    enter_voucher_code: Enter voucher code
+    invalid_voucher_code: Invalid voucher code
+    not_published: Course not published
+    under_review: Course is under review
+    course_rejected: Course is rejected
+    dropout: Drop out
+    paid_dropout: To dropout of this course for any reason please contact admin@akshi.com
+    dropped_out: Dropped out
+    created: Created
+    create_failed: Create failed
+    new: New
+    create: Create
+    deleted: Deleted
+    delete_failed: Delete failed
+    delete: Delete
+    updated: Updated
+    update: Update
+    published: Published
+    rejected: Rejected
+    update_failed: Update failed
+    login_to_enroll: Login to enroll
+    no_users: No users found
+    avatar: Avatar
+    name: Name
+    username: Username
+    teacher_icon: T
+    teacher: Teacher
+    enroll: Enroll
+    no_offline_payment_instruction: No offline payment instruction
+    pay: Pay
+    badge:
+      not_published: Unpublished
+      learning: Learning
+      teaching: Teaching
+
+    menu:
+      details: Details
+      lessons: Lessons
+      announcements: Announcements
+      discussion: Discussion
+      topics: All topics
+      quizzes: Quizzes
+      live: Live
+      subjects: Subjects
+      users: Users
+      whiteboard: Whiteboard
+      schedule: Schedule
+    placeholders:
+      name: 4-80 characters
+      description: Brief description of the course
+      amount: Course amount
+      offline_payment_instruction: Offline payment instruction
+
+  collections:
+    collections: Collections
+    courses: Courses
+    no_courses: No courses found
+    no_collections: No collections found
+    edit: Edit
+    new: New
+    update: Update
+    updated: Updated
+    update_failed: Update failed
+    delete: Delete
+    deleted: Deleted
+    create: Create
+    created: Created
+    create_failed: Create failed
+    course_added: Course added
+    failed_to_add: Failed to add
+    course_removed: Course removed
+    failed_to_remove: Failed to remove
+    failed_to_move: Failed to move
+    paid_teacher: You are teacher of any of the subject in this packages. If you want to enroll / dropout please contact admin@akshi.com
+    placeholders:
+      name: 4-80 characters
+      position: Position
+      description: Brief description of the collection
+      discount: Discount
+
+  categories:
+    categories: Categories
+    course:
+      one: 1 course
+      other: "%{count} courses"
+    all: All
+    none: None
+    no_categories: No categories
+    delete: Delete
+    deleted: Deleted
+    new: New
+    edit: Edit
+    placeholders:
+      name: 4-80 characters
+    search: Search
+    create: Create
+    created: Created
+    create_failed: Create failed
+    update: Update
+    updated: Updated
+    update_failed: Update failed
+
+  subjects:
+    subjects: Subjects
+    course:
+      one: 1 course
+      other: "%{count} courses"
+    all: All
+    none: None
+    no_subjects: No subjects
+    delete: Delete
+    deleted: Deleted
+    new: New
+    edit: Edit
+    placeholders:
+      name: 4-80 characters
+    search: Search
+    create: Create
+    created: Created
+    create_failed: Create failed
+    update: Update
+    updated: Updated
+    update_failed: Update failed
+
+  users:
+    search: Search
+    no_about: No profile information
+    notification_settings: Notification
+    announcement_notify: Announcement
+    topic_reply_notify: Topic reply
+    discussion_notify: Discussion
+    schedule_notify: Schedule
+    no_users: No users found
+    deleted: Deleted
+    updated: Updated
+    update_failed: Update failed
+    courses: Courses
+    add: Add
+
+  account:
+    account: Account
+    updated: Updated
+    update_failed: Update failed
+    submit: Update
+    menu:
+      profile: Profile
+      learning: Learning
+      teaching: Teaching
+      admin: Admin
+
+  admin:
+    categories: Categories
+    collections: Collections
+    courses: Courses
+    comments: Comments
+    users: Users
+
+  posts:
+    placeholders:
+      title: 4-80 characters
+      content: Content of the post
+    create: Create
+    search: Search
+    no_posts: No posts found
+    posted: Posted
+    comment: Comment
+    new: New
+    edit: Edit
+    delete: Delete
+    update: Update
+    created: Created
+    create_failed: Create failed
+    updated: Updated
+    update_failed: Update failed
+    deleted: Deleted
+    blogs: Blogs
+    recent_posts: Recent posts
+
+  comments:
+    no_comments: No comments found
+    create: Create
+    under_review: Comment is under review
+    create_failed: Create failed
+    new: New comment
+    approved: Approved
+    rejected: Rejected
+    placeholders:
+      email: user@example.com
+      content: Comment content
+
+  lessons:
+    new: New
+    create: Create
+    update: Update
+    updated: Updated
+    update: Update
+    search: Search
+    update_failed: Update failed
+    no_content: No lesson content
+    created: Created
+    delete_attachment: Delete attachment
+    create_failed: Create failed
+    no_lessons: No lessons found
+    delete: Delete
+    deleted: Deleted
+    upload_deleted: Upload deleted
+    upload_being_converted: Conversion in progress
+    unread: Unread
+    percent_complete: complete
+    placeholders:
+      name: 4-80 characters
+      content: Lesson content
+      position: Position
+
+  topics:
+    new: New
+    new_reply: Reply
+    create: Create
+    created: Created
+    edit: Edit
+    create_failed: Create failed
+    no_topics: No topics found
+    no_replies: No replies found
+    replies: Replies
+    unread: Unread
+    reply: Reply
+    edit_reply: Edit reply
+    search: Search
+    delete: Delete
+    deleted: Deleted
+    update: Update
+    updated: Updated
+    update_failed: Update failed
+    posted: posted
+    posted_by_teacher: Posted by Teacher
+    placeholders:
+      title: Title
+      content: Topic content
+      reply: Reply content
+
+  forgot_password:
+    forgot_password: Forgot password?
+    submit: Recover
+    reset_instruction: Reset instruction emailed
+    user_not_found: User not found
+    greeting: Hi
+    click_here: Click here
+    reset_password: Reset password
+    update_failed: Update failed
+    visit: Visit
+    to_reset_password: to reset your password
+    update: Update
+    ignore: Please ignore this email if you did not request password reset.
+    username_email: Username/email
+    password_updated: Password updated
+    invalid_token: Invalid password reset token
+
+  chats:
+    chat: Chat
+    created: Created
+    posted: posted
+    create_failed: Create failed
+
+  announcements:
+    new: New
+    created: Created
+    create_failed: Create failed
+    updated: Updated
+    update: Update
+    update_failed: Update failed
+    deleted: Deleted
+    no_announcements: No announcements posted
+    search: Search
+    post: Post
+    edit: Edit
+    delete: Delete
+    placeholders:
+      content: Announcement content
+
+  quizzes:
+    new: New
+    create: Create
+    no_quizzes: No quizzes found
+    search: Search
+    created: Created
+    create_failed: Create failed
+    unread: Unread
+    updated: Updated
+    update: Update
+    update_failed: Update failed
+    correct_answer_missing: Correct answer missing for few questions
+    delete: Delete
+    deleted: Deleted
+    quiz_completed: Quiz completed
+    scored: You scored
+    ranked: And your rank is
+    times_up: Time's up
+    placeholders:
+      instruction: Quiz instruction
+      name: 4-80 characters
+      position: Position
+    results:
+      none_taken: No one has attempted
+      rank: Rank
+      score: Score
+      user: User
+
+  questions:
+    new: New question
+    create: Create
+    created: Created
+    create_failed: Create failed
+    delete: Delete question
+    deleted: Deleted
+    edit: Edit question
+    update: Update
+    updated: Updated
+    update_failed: Update failed
+    no_questions: No questions found
+    add_answer: Add answer
+    no_answers: No answers present
+    no_correct_answer: No correct answer selected
+    answers: Answers
+    placeholders:
+      content: Question content
+
+  answers:
+    new: New answer
+    create: Create
+    created: Created
+    create_failed: Create failed
+    delete: Delete
+    deleted: Deleted
+    edit: Edit
+    update: Update
+    updated: Updated
+    update_failed: Update failed
+    placeholders:
+      content: Answer content
+
+  ratings:
+    success: Rating successful
+    failure: Failed to rate
+
+  responses:
+    failed: Failed to store response
+
+  schedules:
+    scheduled: Scheduled
+    schedule_failed: Invalid start time
+    deleted: Deleted
+    upcoming: Upcoming classes
+    no_classes: No live classes scheduled
+    next_class: Next class
+    placeholders:
+      class_description: Class description
+      start_time: Start time
+
+  vouchers:
+    vouchers: Vouchers
+    no_vouchers: No vouchers found
+    active: Active
+    used: Used
+    available: Available
+    deleted: Deleted
+    generated: Generated %{quantity} vouchers
+    activate: Activate
+    deactivate: Deactivate
+    delete: Delete
+    updated: Updated
+    update_failed: Update failed
+    placeholders:
+      quantity: Quantity

@@ -1,0 +1,5 @@
+$('#modal').html('<%= escape_javascript(
+                      render "answers/edit", :quiz => @quiz,
+                             :question => @question, :answer => @answer) %>');
+$('#modal').modal();
+<%= render 'shared/modal_flash' %>

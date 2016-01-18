@@ -1,0 +1,172 @@
+<%= form_tag Setting.ebs.endpoint,
+             :class => 'form-horizontal', :id => 'payment-form' do %>
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <h4><%= t('courses.pay_online') %></h4>
+  </div>
+  <% return_url = hash_url(payment_complete_user_course_url(current_user, @course),
+                           payment_complete_user_course_path(current_user, @course)) %>
+  <div class="modal-body">
+    <fieldset>
+      <%= hidden_field_tag 'account_id', account_id %>
+      <%= hidden_field_tag 'return_url', "#{return_url}.js?DR={DR}" %>
+      <%= hidden_field_tag 'mode', payment_mode %>
+      <%= hidden_field_tag 'reference_no', reference_number %>
+      <%= hidden_field_tag 'description', course.name %>
+      <div class="control-group">
+        <%= label_tag 'name', nil, :class => 'control-label' %>
+        <div class="controls">
+          <%= text_field_tag 'name', current_user.fullname, :readonly => true %>
+          <%= hidden_field_tag 'ship_name', current_user.fullname %>
+        </div>
+      </div>
+      <div class="control-group">
+        <%= label_tag 'email', nil, :class => 'control-label' %>
+        <div class="controls">
+          <%= text_field_tag 'email', current_user.email, :readonly => true %>
+        </div>
+      </div>
+      <div class="control-group">
+        <%= label_tag 'phone', nil, :class => 'control-label' %>
+        <div class="controls">
+          <%= text_field_tag 'phone', nil %>
+          <%= hidden_field_tag 'ship_phone' %>
+          <span class="help-inline"></span>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="amount">Amount (<%= course.currency %>)</label>
+        <div class="controls">
+          <%= text_field_tag 'amount', course.amount, :readonly => true %>
+        </div>
+      </div>
+      <div class="control-group">
+        <%= label_tag 'address', nil, :class => 'control-label' %>
+        <div class="controls">
+          <%= text_area_tag 'address' %>
+          <%= hidden_field_tag 'ship_address' %>
+          <span class="help-inline"></span>
+        </div>
+      </div>
+      <div class="control-group">
+        <%= label_tag 'city', nil, :class => 'control-label' %>
+        <div class="controls">
+          <%= text_field_tag 'city' %>
+          <%= hidden_field_tag 'ship_city' %>
+          <span class="help-inline"></span>
+        </div>
+      </div>
+      <div class="control-group">
+        <%= label_tag 'state', nil, :class => 'control-label' %>
+        <div class="controls">
+          <%= text_field_tag 'state' %>
+          <%= hidden_field_tag 'ship_state' %>
+          <span class="help-inline"></span>
+        </div>
+      </div>
+      <div class="control-group">
+        <%= label_tag 'postal_code', nil, :class => 'control-label' %>
+        <div class="controls">
+          <%= text_field_tag 'postal_code' %>
+          <%= hidden_field_tag 'ship_postal_code' %>
+          <span class="help-inline"></span>
+        </div>
+      </div>
+      <div class="control-group">
+        <%= label_tag 'country', nil, :class => 'control-label' %>
+        <div class="controls">
+          <%= country_select 'country' %>
+          <%= hidden_field_tag 'ship_country' %>
+        </div>
+      </div>
+    </fieldset>
+  </div>
+
+  <div class="modal-footer">
+    <%= submit_tag t('courses.pay'), :class => 'btn btn-primary', :id => 'pay-submit' %>
+    <button class="btn" data-dismiss="modal" id="close-login">
+      <%= t('site.close') %>
+    </button>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+  $(function() {
+    $('#address').keyup(function() {
+      if(window.validateLength($(this).val(), 3, 'greater')) {
+        $(this).parent().parent().removeClass('error');
+        $(this).find('~ span.help-inline').text('');
+      } else {
+        $(this).parent().parent().addClass('error');
+        $(this).find('~ span.help-inline').text('is invalid');
+      }
+      $('#ship_address').val($(this).val());
+    });
+
+    $('#city').keyup(function() {
+      if(window.validateLength($(this).val(), 3, 'greater')) {
+        $(this).parent().parent().removeClass('error');
+        $(this).find('~ span.help-inline').text('');
+      } else {
+        $(this).parent().parent().addClass('error');
+        $(this).find('~ span.help-inline').text('is invalid');
+      }
+      $('#ship_city').val($(this).val());
+    });
+
+    $('#state').keyup(function() {
+      if(window.validateLength($(this).val(), 3, 'greater')) {
+        $(this).parent().parent().removeClass('error');
+        $(this).find('~ span.help-inline').text('');
+      } else {
+        $(this).parent().parent().addClass('error');
+        $(this).find('~ span.help-inline').text('is invalid');
+      }
+      $('#ship_state').val($(this).val());
+    });
+
+    $('#postal_code').keyup(function() {
+      if(window.validateNumeric($(this).val()) &&
+          window.validateLength($(this).val(), 4, 'greater')) {
+        $(this).parent().parent().removeClass('error');
+        $(this).find('~ span.help-inline').text('');
+      } else {
+        $(this).parent().parent().addClass('error');
+        $(this).find('~ span.help-inline').text('is invalid');
+      }
+      $('#ship_postal_code').val($(this).val());
+    });
+
+    $('#phone').keyup(function() {
+      if(window.validateNumeric($(this).val()) &&
+          window.validateLength($(this).val(), 8, 'greater')) {
+        $(this).parent().parent().removeClass('error');
+        $(this).find('~ span.help-inline').text('');
+      } else {
+        $(this).parent().parent().addClass('error');
+        $(this).find('~ span.help-inline').text('is invalid');
+      }
+      $('#ship_phone').val($(this).val());
+    });
+
+    $('#ship_country').val($('#country').val());
+    $('#country').change(function() {
+      $('#ship_country').val($(this).val());
+    });
+
+    $('#payment-form').submit(function() {
+      $.each(['phone', 'address', 'city', 'state', 'postal_code'], function(index, value) {
+        if($.trim($('#' + value).val()) == '') {
+          $('#' + value).parent().parent().addClass('error');
+          $('#' + value).find('~ span.help-inline').text('is required');
+          return false;
+        }
+      });
+
+      if($(this).find('.control-group.error').length > 0) {
+        window.showFlash('Form contains errors', 'error');
+        return false;
+      }
+    });
+  });
+</script>

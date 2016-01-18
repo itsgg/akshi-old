@@ -1,0 +1,10 @@
+$('#chat .messages table tbody').prepend('<%= escape_javascript(
+                                              render 'chats/chat', :chat => @chat,
+                                                     :course => @course, :user => @chat.user) %>');
+$("#chat_content").val('').focus();
+
+window.socket.emit('chat', {
+  id: <%= @chat.id %>,
+  courseId: <%= @course.id %>
+});
+window.initAjaxCSRF('<%= form_authenticity_token %>');

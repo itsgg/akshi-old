@@ -1,0 +1,2 @@
+resque: bundle exec rake environment resque:work QUEUE=* RAILS_ENV=production PIDFILE=tmp/pids/resque.pid
+socket: node socket_server.js --secure --pidfile=tmp/pids/socket_server.pid

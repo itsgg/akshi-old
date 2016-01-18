@@ -1,0 +1,21 @@
+<ul class="nav nav-tabs">
+  <% if topics.present? %>
+    <% topics.each do |current_topic| %>
+      <li class="<%= 'active' if current_topic == topic %>">
+        <%= link_to topic_nav_link(current_topic, current_user),
+                    hash_path(course_topic_path(course, current_topic,
+                              :type => params[:type], :subtype => params[:subtype],
+                              :page => params[:page], :per_page => params[:per_page],
+                              :q => params[:q])),
+                    :class => 'scroll-top' %>
+      </li>
+    <% end %>
+  <% end %>
+</ul>
+<div class="center clear">
+  <%= page_navigation_links(topics, :inner_window => 1, :outer_window => 0) %>
+  <span class="muted">
+    <%= page_entries_info topics %>
+  </span>
+</div>
+

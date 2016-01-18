@@ -1,0 +1,46 @@
+<ul class="nav nav-tabs">
+  <% lessons.each do |current_lesson| %>
+    <li class="<%= 'active' if current_lesson == lesson %>"
+        id="lesson_<%= current_lesson.id %>">
+      <% if current_user.teacher?(course.id) %>
+        <div class="pull-left" style="padding: 8px 0 0 5px;">
+          <i class="icon-reorder icon-gray" />
+        </div>
+      <% end %>
+      <%= link_to lesson_nav_link(current_lesson),
+                  hash_path(course_lesson_path(course, current_lesson,
+                            :subject => params[:subject],
+                            :type => params[:type],
+                            :subtype => params[:subtype],
+                            :page => params[:page],
+                            :per_page => params[:per_page],
+                            :q => params[:q],
+                            :filter => params[:filter])),
+                  :class => 'scroll-top' %>
+    </li>
+  <% end %>
+</ul>
+
+<div class="center clearfix">
+  <%= page_navigation_links(lessons, :page_links => false) %>
+  <span class="muted">
+    <%= page_entries_info lessons %>
+  </span>
+</div>
+
+<% if current_user.teacher?(course.id) %>
+  <script type="text/javascript">
+    $('#lessons-nav ul.nav-tabs').sortable({
+      cursor: 'move',
+      stop: function(event, ui) {
+        $.ajax({
+          url: '<%= sort_course_lessons_path(course) %>',
+          type: 'POST',
+          data: '_method=put&' + $(this).sortable('serialize')
+        });
+      }
+    });
+    $('#lessons-nav ul.nav-tabs').disableSelection();
+  </script>
+<% end %>
+

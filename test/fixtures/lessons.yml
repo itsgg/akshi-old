@@ -1,0 +1,33 @@
+# == Schema Information
+#
+# Table name: lessons
+#
+#  id                  :integer          not null, primary key
+#  name                :string(255)
+#  course_id           :integer
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  upload_file_name    :string(255)
+#  upload_content_type :string(255)
+#  upload_file_size    :integer
+#  upload_updated_at   :datetime
+#  position            :integer
+#  content             :text(2147483647)
+#  published           :boolean          default(FALSE)
+#  subject_id          :integer
+#
+
+calculus:
+  name: Introduction to calculus
+  course: math101
+  published: true
+
+statistics:
+  name: Introduction to statistics
+  course: math101
+  published: true
+
+oops:
+  name: Introduction to Object Oriented programing
+  course: comp101
+  published: false

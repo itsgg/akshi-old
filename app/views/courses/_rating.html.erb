@@ -1,0 +1,30 @@
+<div class="rating"></div>
+<script type="text/javascript">
+  <% if show_label %>
+    <% unless course.can_rate?(current_user.try(:id)) %>
+      $('#course_<%= course.id %> .rating').tooltip({
+        <% if course.rated?(current_user.try(:id)) %>
+          title: 'Already rated'
+        <% else %>
+          title: 'Only students can rate'
+        <% end %>
+      });
+    <% end %>
+  <% end %>
+  $('#course_<%= course.id %> .rating').raty({
+    path: '/assets',
+    <% unless course.can_rate?(current_user.try(:id)) %>
+      readOnly: true,
+    <% end %>
+    half: true,
+    score: <%= course.average_score %>,
+    click: function(score, event) {
+      $.post('<%= course_ratings_path(course) %>', {
+        ratings: {
+          score: score
+        },
+        format: 'js'
+      });
+    }
+  });
+</script>

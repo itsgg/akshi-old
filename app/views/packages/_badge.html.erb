@@ -1,0 +1,16 @@
+<script type="text/javascript">
+  <% if current_user.try(:teacher?, course.id) %>
+    $('#course_<%= course.id %> <%= elem %>').iosbadge({
+      theme: 'blue',
+      size: 22,
+      content: '<%= t('.teaching') %>'
+    });
+  <% end %>
+  <% if current_user.try(:student?, course.id) %>
+    $('#course_<%= course.id %> <%= elem %>').iosbadge({
+      theme: 'blue',
+      size: 22,
+      content: '<%= t('.learning') %>'
+    });
+  <% end %>
+</script>

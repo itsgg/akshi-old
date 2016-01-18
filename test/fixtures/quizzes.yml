@@ -1,0 +1,34 @@
+# == Schema Information
+#
+# Table name: quizzes
+#
+#  id                    :integer          not null, primary key
+#  name                  :string(255)
+#  instruction           :text(2147483647)
+#  course_id             :integer
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  published             :boolean          default(FALSE)
+#  time_limit_in_minutes :float            default(0.0)
+#  position              :integer
+#  allow_review          :boolean          default(TRUE)
+#  subject_id            :integer
+#
+
+prob:
+  name: Probability
+  instruction: Quiz on probability theory
+  course: math101
+  published: true
+
+verbs:
+  name: Verbs
+  instruction: Quiz on action verbs
+  course: eng101
+  published: true
+
+test:
+  name: Testing
+  instruction: Quiz on testing
+  course: comp101
+  published: false

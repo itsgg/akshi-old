@@ -1,0 +1,52 @@
+<%= form_for [course, topic],
+             :html => {:class => 'form-horizontal form-horizontal-mini', :remote => true} do |f| %>
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <h4>
+      <% if topic.top? %>
+        <%= t('topics.edit') %>
+      <% else %>
+        <%= t('topics.edit_reply') %>
+      <% end %>
+    </h4>
+  </div>
+  <div class="modal-body">
+    <%= hidden_field_tag 'subtype', params[:subtype] %>
+    <%= hidden_field_tag 'type', params[:type] %>
+    <%= hidden_field_tag 'page', params[:page] %>
+    <fieldset>
+      <% if topic.top? %>
+        <%= render :layout => 'shared/bootstrap_field',
+                   :locals => {:object => topic, :type => :title,
+                               :f => f} do %>
+          <%= f.text_field :title,
+                           :placeholder => t('topics.placeholders.title')%>
+        <% end %>
+      <% end %>
+      <%= render :layout => 'shared/bootstrap_field',
+                 :locals => {:object => topic, :type => :content,
+                             :f => f} do %>
+      <%= f.text_area :content,
+                      :placeholder => t('topics.placeholders.content'),
+                      :class => 'rich' %>
+      <% end %>
+
+      <% unless course.list_of_subjects.blank? %>
+        <% if topic.top? %>
+          <%= render :layout => 'shared/bootstrap_field',
+                    :locals => {:object => topic, 
+                                :type => :subject, :f => f} do %>
+            <%= f.select :subject_id, options_for_select(course.list_of_subjects, (topic.subject.id unless topic.subject.blank?)),
+                             {}, {:class => 'rich'}  %>
+          <% end %>
+        <% end %>
+      <% end %>
+    </fieldset>
+  </div>
+  <div class="modal-footer">
+    <%= f.submit t('topics.update'), :class => 'btn btn-primary' %>
+    <button class="btn" data-dismiss="modal">
+      <%= t('site.close') %>
+    </button>
+  </div>
+<% end %>

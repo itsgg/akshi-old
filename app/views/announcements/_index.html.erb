@@ -1,0 +1,50 @@
+<%= render 'courses/menu', :course => course %>
+<%= render 'announcements/actionbar', :course => course %>
+<% if announcements.present? %>
+  <table class="table table-striped table-hover vertical-middle">
+    <tbody>
+      <% announcements.each do |announcement| %>
+        <tr class="row" id="announcement_<%= announcement.id %>">
+          <td class="span1 avatar">
+            <%= image_tag announcement.user.avatar(:icon), :class => 'thumbnail' %>
+          </td>
+          <td>
+            <div class="blocky">
+              <%= raw announcement.content %>
+            </div>
+            <div class="pull-left muted">
+              <% if announcement.user.teacher?(course.id) %>
+                <span class="label label-info teacher-badge" title="Teacher"
+                      rel="tooltip"><%= t('courses.teacher_icon') %></span>
+              <% end %>
+              <%= link_to announcement.user.username,
+                          hash_path(user_path(announcement.user, :type => params[:type])) %>
+              <%= t('topics.posted') %>
+              <%= timeago announcement.updated_at %>
+            </div>
+            <div class="pull-right">
+              <% if current_user.teacher?(course.id) %>
+                <%= link_to raw("<i class='icon-edit'></i> #{t('announcements.edit')}"),
+                            edit_course_announcement_path(course, announcement, params_to_pass),
+                            :id => "edit_#{announcement.id}", :remote => true,
+                            :class => 'btn btn-mini' %>
+                <%= link_to raw("<i class='icon-trash'></i> #{t('announcements.delete')}"),
+                            course_announcement_path(course, announcement, params_to_pass),
+                            :method => :delete, :id => "delete_#{announcement.id}",
+                            :class => 'btn btn-mini btn-danger', :remote => true,
+                            :confirm => t('site.confirm') %>
+              <% end %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <div class="pull-right">
+    <%= page_navigation_links(announcements) %>
+  </div>
+<% else %>
+  <div class="alert">
+    <%= t('announcements.no_announcements') %>
+  </div>
+<% end %>

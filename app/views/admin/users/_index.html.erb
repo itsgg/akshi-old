@@ -1,0 +1,59 @@
+<%= render 'admin/nav' %>
+<%= render 'admin/users/actionbar' %>
+
+<% if users.present? %>
+  <table class="table table-striped table-hover">
+    <tbody>
+      <% users.each do |user| %>
+        <tr>
+          <td class="user-icon">
+            <%= link_to image_tag(user.avatar(:icon)),
+                        hash_path(user_path(user,
+                          :type => params[:type],
+                          :subtype => 'profile')),
+                        :class => 'thumbnail' %>
+
+          </td>
+          <td style="vertical-align: middle;">
+            <%= link_to user.display_name,
+                        hash_path(user_path(user,
+                          :type => params[:type],
+                          :subtype => 'profile')) %>
+            <br />
+            <span class="muted"><%= user.email %></span>
+          </td>
+          <td style="width: 320px; vertical-align: middle;">
+            <% if user.blocked? %>
+              <%= link_to 'Unblock',
+                          admin_user_path(user, :user => {:blocked => false}),
+                          :method => 'put', :class => 'btn btn-success', :remote => true,
+                          :style => 'width: 50px;' %>
+            <% else %>
+              <%= link_to 'Block',
+                          admin_user_path(user, :user => {:blocked => true}),
+                          :method => 'put', :class => 'btn btn-warning', :remote => true,
+                          :style => 'width: 50px;' %>
+
+            <% end %>
+            <%= link_to 'Shadow', shadow_admin_user_path(user),
+                        :method => 'put', :remote => true,
+                        :class => 'btn' %>
+            <%= link_to 'Courses', courses_admin_user_path(user),
+                        :class => 'btn btn-primary',
+                        :remote => true %>
+            <%= link_to 'Delete', admin_user_path(user),
+                        :method => 'delete', :confirm => t('site.confirm'),
+                        :remote => true, :class => 'btn btn-danger' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <div class="pull-right">
+    <%= page_navigation_links(users) %>
+  </div>
+<% else %>
+  <div class="alert">
+    <%= t('users.no_users') %>
+  </div>
+<% end %>

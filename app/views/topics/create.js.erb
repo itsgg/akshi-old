@@ -1,0 +1,11 @@
+<% if @success %>
+  // Go the created topic page
+  location.hash = '<%= raw hash_path(course_topic_path(@course, @topic.top,
+                                     :type => params[:type], :subtype => params[:subtype],
+                                     :page => params[:page], :touch => Time.now.to_i)) %>';
+<% else %>
+  $('#modal').html('<%= escape_javascript(render "topics/new",
+                          :course => @course, :topic => @topic) %>');
+  <%= render 'shared/modal_flash' %>
+<% end %>
+window.initAjaxCSRF('<%= form_authenticity_token %>');

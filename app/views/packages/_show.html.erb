@@ -1,0 +1,140 @@
+<%= render 'packages/menu', :collection => :collection %>
+
+<div id="course_<%= collection.id %>">
+  <div class="row">
+    <div class="span8">
+      <% if collection.description.present? %>
+        <%= raw collection.description %> <br />
+      <% else %>
+        <div class="alert"><%= t('courses.no_description') %></div>
+      <% end %>
+      <% if collection.paid? %>
+        <div class="label label-warning" id ="amount_description">
+            <span style="padding-right:30px;">Total Price</span> = <%= collection.amount_description %><br/>
+            <% unless collection.discount.blank? %>
+              <span style="padding-right:40px;">Discount</span> = Rs <%= collection.discount %> <br />
+              <span style="padding-right:29px;">Offer Price</span> = <%= collection.amount_description_paid(current_user) %>
+            <% end %>
+        </div>
+      <% else %>
+        <div class="label label-warning" id ="amount_description">
+          <%= collection.amount_description %>
+        </div>
+      <% end %>
+      <hr/>
+      <% if logged_in? %>
+        <% unless collection.paid? %>
+          <% unless collection.teacher?(current_user) %>
+            <% unless collection.enrolled?(current_user) %>
+              <%= link_to t('courses.enroll'),
+                            enroll_package_path(collection, current_user,
+                                                    :type => 'learn'),
+                            :class => 'btn btn-primary', :remote => true,
+                            :method => :post %>
+            <% else %>
+              <%= link_to t('courses.dropout'),
+                            dropout_package_path(collection, current_user,
+                                                     :type => 'learn'),
+                            :class => 'btn btn-danger', :remote => true,
+                            :method => :post, :confirm => t('site.confirm') %>
+            <% end %>
+          <% else %>
+            <div class="alert">
+              <%= t('collections.paid_teacher') %>
+            </div>
+          <% end %>
+        <% else %>
+          <% unless collection.enrolled?(current_user) || collection.teacher?(current_user) %>
+            <%= link_to t('courses.pay_online'),
+                            pay_online_package_path(collection, current_user, :type => 'learn'),
+                            :class => 'btn btn-primary', :remote => true %>
+            <%= link_to t('courses.pay_offline'), nil,
+                        :id => 'show-offline-payment-instruction',
+                        :class => 'btn' %>
+            <div class="modal hide" id="offline-payment-instruction">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h4><%= t('courses.placeholders.offline_payment_instruction') %></h4>
+              </div>
+              <div class="modal-body scroll">
+                <% if collection.offline_payment_instruction.present? %>
+                  <%= raw collection.offline_payment_instruction %>
+                <% else %>
+                  <div class="alert">
+                    <%= t('courses.no_offline_payment_instruction') %>
+                  </div>
+                <% end %>
+              </div>
+              <div class="modal-footer">
+                <button class="btn" data-dismiss="modal">
+                  <%= t('site.close') %>
+                </button>
+              </div>
+            </div>
+          <% else %>
+            <div class="alert">
+              <%= t('courses.paid_dropout') %>
+            </div>
+          <% end %>
+        <% end %>
+      <% else %>
+        <div class="alert">
+          <%= t('courses.login_to_enroll') %>
+        </div>
+      <% end %>
+      <hr />
+      </div>
+    <div class="span4" >
+      <%= image_tag collection.cover(:normal), :class => 'img-polaroid' %>
+      <div class="rating student-rating"></div>
+    </div>
+    <div class="span12">
+      <ul class="thumbnails">
+        <% collection.courses.each do |course| %>
+          <li class="span3" id="course_<%= course.id %>">
+            <div class="thumbnail">
+              <%= link_to image_tag(course.cover(:normal)),
+                    hash_path(course_path(course,
+                      :type => params[:type],
+                      :subtype => 'details')) %>
+              <div class="caption">
+                <%= link_to truncate(course.name, :length => 60),
+                      hash_path(course_path(course,
+                        :type => params[:type],
+                        :subtype => 'details')) %>
+                <br />
+                <div class="label label-warning" id="collection_course_<%= course.id %>">
+                  <%= course.amount_description %>
+                </div>
+              </div>
+              <%= render 'packages/rating', :course => course, :show_label => false %>
+              <%= render 'packages/badge', :course => course, :elem => '.thumbnail' %>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </div>  
+  </div>
+</div>
+<script type="text/javascript">
+  $('#show-offline-payment-instruction').click(function() {
+    $('#offline-payment-instruction').modal();
+    return false;
+  });
+
+  $('.collection_course').click(function(){
+    amount_description = $.trim($('#amount_description').text()).split(' ')[1];
+    collection_id = this.id.split('_')[2];
+    amount_collection = $('#collection_course_' + collection_id).text();
+    if ($.trim(amount_collection) != 'free'){
+      amount_course = amount_collection.split('Rs ')[1];
+      if($(this).is(':checked')) {
+        amount_description = parseInt(amount_description) + parseInt(amount_course);
+      }
+      else {
+        amount_description = parseInt(amount_description) - parseInt(amount_course);
+      }
+      $('#amount_description').text('Rs ' + amount_description);
+    }
+  });
+</script>

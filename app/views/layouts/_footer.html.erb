@@ -1,0 +1,24 @@
+<div class="container footer-container muted" id="footer">
+  <div class="pull-left">
+    &copy; <%= Date.today.year %> <%= t('footer.copyright') %>
+    <%= link_to t('page.terms_and_conditions'), hash_path(terms_and_conditions_path),
+          :class => 'scroll-top' %>
+    <span class="divider">/</span>
+    <%= link_to t('page.privacy_policy'), hash_path(privacy_policy_path),
+          :class => 'scroll-top' %>
+  </div>
+  <div class="pull-right">
+    <%= link_to t('page.home'), hash_path(root_path),
+          :class => 'scroll-top' %>
+    <span class="divider">/</span>
+    <%= link_to t('page.blog'), hash_path(posts_path),
+          :class => 'scroll-top' %>
+    <span class="divider">/</span>
+    <%= link_to t('page.about'), hash_path(about_path),
+                :class => 'scroll-top' %>
+  </div>
+</div>
+<div class="modal hide" id="modal"></div>
+<div id="loader" class="hide">
+  <%= image_tag 'loader.gif', :alt => 'loader' %>
+</div>

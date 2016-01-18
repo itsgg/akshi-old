@@ -1,0 +1,21 @@
+<td><%= voucher.code %></td>
+<td style="width: 200px; vertical-align: middle;">
+  <% if voucher.status_new? %>
+    <%= link_to t('vouchers.activate'), course_voucher_path(course, voucher,
+                                                            {:voucher => {:status => 'active'}}),
+                :class => 'btn', :method => :put,
+                :style => 'width: 70px',
+                :remote => true %>
+  <% end %>
+  <% if voucher.status_active? %>
+    <%= link_to t('vouchers.deactivate'), course_voucher_path(course, voucher,
+                                                              {:voucher => {:status => 'new'}}),
+                :class => 'btn', :method => :put,
+                :style => 'width: 70px',
+                :remote => true %>
+  <% end %>
+  <%= link_to t('vouchers.delete'), course_voucher_path(course, voucher,
+                                            :voucher_type => params[:voucher_type]),
+                                    :remote => true, :confirm => t('site.confirm'),
+                                    :method => :delete, :class => 'btn btn-danger' %>
+</td>

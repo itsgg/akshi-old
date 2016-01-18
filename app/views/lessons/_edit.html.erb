@@ -1,0 +1,76 @@
+<%= form_for [course, lesson],
+             :html => {:class => 'form-horizontal', :remote => true} do |f| %>
+  <fieldset>
+    <%= hidden_field_tag 'type', params[:type] %>
+    <%= hidden_field_tag 'subtype', params[:subtype] %>
+    <%= hidden_field_tag 'page', params[:page] || 1 %>
+
+    <%= render :layout => 'shared/bootstrap_field',
+               :locals => { :object => lesson, :type => :name, :f => f } do %>
+      <%= f.text_field :name, :placeholder => t('lessons.placeholders.name'),
+                       :maxlength => 80, :class => 'span4' %>
+    <% end %>
+
+    <div class="control-group">
+      <div class="controls">
+        <% if lesson.upload.present? %>
+          <p>
+            <%= link_to lesson.upload_file_name, lesson.upload.url,
+                        :target => '_blank' %>
+            <%= link_to raw('<i class="icon-trash"></i>'),
+                        delete_attachment_course_lesson_path(course, lesson,
+                        :type => params[:type], :subtype => params[:subtype]),
+                        :method => :delete, :remote => true, :rel => 'tooltip',
+                        :title => t('lessons.delete_attachment'),
+                        :confirm => t('site.confirm') %>
+          </p>
+        <% end %>
+        <%= f.file_field :upload, :class => 'rich',
+                         'data-filesize_limit' => Setting.upload.lesson_limit,
+                         'data-authenticity_token' => form_authenticity_token,
+                         'data-session_key' => cookies['akshi_session'] %>
+      </div>
+    </div>
+
+    <%= render :layout => 'shared/bootstrap_field',
+               :locals => {:object => lesson,
+                           :type => :content, :f => f} do %>
+      <%= f.text_area :content,
+                      :placeholder => t('lessons.placeholders.content'),
+                      :class => 'rich' %>
+    <% end %>
+
+    <%= render :layout => 'shared/bootstrap_field',
+               :locals => {:object => lesson,
+                           :type => :published, :f => f} do %>
+      <%= f.check_box :published %>
+    <% end %>
+
+    <% unless course.list_of_subjects.blank? %>
+      <%= render :layout => 'shared/bootstrap_field',
+                  :locals => {:object => lesson,
+                              :type => :subject, :f => f} do %>
+        <%= f.select :subject_id, options_for_select(course.list_of_subjects, (lesson.subject.id unless lesson.subject.blank?)),
+                           {}, {:class => 'rich'} %>
+
+      <% end %>
+    <% end %>
+    
+    <%= render :layout => 'shared/bootstrap_field',
+               :locals => { :object => lesson, :type => :position, :f => f } do %>
+      <%= f.text_field :position, :placeholder => t('lessons.placeholders.position'),
+                       :maxlength => 80, :class => 'span4' %>
+    <% end %>
+
+    <div class="control-group">
+      <div class="controls">
+        <%= f.submit t('lessons.update'), :class => 'btn btn-primary' %>
+        <%= link_to t('lessons.delete'),
+                    course_lesson_path(course, lesson, :type => params[:type],
+                                       :subtype => params[:subtype]),
+                    :remote => true, :class => 'btn btn-danger', :id => 'delete_lesson',
+                    :method => :delete, :confirm => t('site.confirm') %>
+      </div>
+    </div>
+  </fieldset>
+<% end %>

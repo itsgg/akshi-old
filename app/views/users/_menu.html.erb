@@ -1,0 +1,23 @@
+<div class="page-header">
+  <h4><%= user.fullname %> - <%= user.username %></h4>
+</div>
+
+<ul class="nav nav-tabs">
+  <li class="<%= menu_class('profile') %>">
+    <%= link_to t('account.menu.profile'),
+                hash_path(user_path user, :subtype => 'profile',
+                          :type => params[:type]) %>
+  </li>
+  <li class="<%= menu_class('learning') %>">
+    <%= link_to t('account.menu.learning'),
+                hash_path(courses_user_path user, :type => 'learning',
+                          :course_type => 'learning',
+                          :subtype => 'learning', :type => params[:type]) %>
+  </li>
+  <li class="<%= menu_class('teaching') %>">
+    <%= link_to t('account.menu.teaching'),
+                hash_path(courses_user_path user, :type => 'teaching',
+                          :course_type => 'teaching',
+                          :subtype => 'teaching', :type => params[:type]) %>
+  </li>
+</ul>

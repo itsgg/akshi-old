@@ -1,0 +1,18 @@
+# == Schema Information
+#
+# Table name: quiz_sessions
+#
+#  id         :integer          not null, primary key
+#  quiz_id    :integer
+#  user_id    :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
+gg_verbs_session:
+  user: gg
+  quiz: verbs
+
+akshi_test_session:
+  user: gg
+  quiz: test

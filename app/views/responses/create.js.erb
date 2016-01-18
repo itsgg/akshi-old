@@ -1,0 +1,6 @@
+<% if @quiz_complete %>
+  $(window).hashchange();
+<% else %>
+  <%= render 'shared/page_flash' %>
+<% end %>
+window.initAjaxCSRF('<%= form_authenticity_token %>');

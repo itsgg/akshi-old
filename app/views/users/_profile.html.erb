@@ -1,0 +1,20 @@
+<%= render 'users/menu', :user => user %>
+
+<% if current_user == user %>
+  <%= render 'users/edit', :user => user, :old_user => nil %>
+<% else %>
+  <div class="row">
+    <div class="span8">
+      <% if user.about.blank? %>
+        <div class="alert">
+          <%= t('users.no_about') %>
+        </div>
+      <% else %>
+        <%= raw user.about %>
+      <% end %>
+    </div>
+    <div class="span4">
+      <%= image_tag user.avatar(:large), :class => 'img-polaroid' %>
+    </div>
+  </div>
+<% end %>

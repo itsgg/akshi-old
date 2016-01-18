@@ -1,0 +1,30 @@
+# == Schema Information
+#
+# Table name: responses
+#
+#  id          :integer          not null, primary key
+#  user_id     :integer
+#  question_id :integer
+#  answer_id   :integer
+#  quiz_id     :integer
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#
+
+one:
+  user: akshi
+  answer: one_three
+  quiz: prob
+  question: one
+
+two:
+  user: akshi
+  answer: two_two
+  quiz: verbs
+  question: two
+
+three:
+  user: gg
+  answer: three_four
+  quiz: test
+  question: three

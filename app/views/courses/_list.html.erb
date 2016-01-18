@@ -1,0 +1,88 @@
+<% if featured_courses.present? %>
+  <div class='page-header'>
+    <h4><%= t('courses.featured') %></h4>
+  </div>
+  <table class="table table-striped table-hover">
+    <tbody>
+      <% featured_courses.each do |featured_course| %>
+        <tr id="course_<%= featured_course.id %>">
+          <td class="course-thumbnail">
+              <div class="course-icon">
+                <%= link_to image_tag(featured_course.cover(:icon),
+                                      :class => 'thumbnail'),
+                            hash_path(course_path(featured_course,
+                              :type => params[:type],
+                              :subtype => 'details')) %>
+              </div>
+          </td>
+          <td class="course-details">
+            <div class="pull-left">
+              <%= link_to truncate(featured_course.name, :length => 70),
+                          hash_path(course_path(featured_course,
+                            :type => params[:type],
+                            :subtype => 'details')) %>
+            </div>
+            <div class="pull-right">
+              <span class="label label-warning">
+                <%= featured_course.amount_description %>
+              </span>
+            </div>
+            <div class="clear" />
+            <%= truncate strip_html(featured_course.description), :length => 80 %>
+          </td>
+          <td class="rating-icon">
+            <%= render 'courses/rating', :course => featured_course, :show_label => false %>
+          </td>
+          <%= render 'courses/badge', :course => featured_course, :elem => '.course-icon' %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <hr />
+<% end %>
+
+<% if courses.present? %>
+  <div class='page-header'>
+    <h4>Popular courses</h4>
+  </div>
+  <table class="table table-striped table-hover">
+    <tbody>
+      <% courses.each do |course| %>
+        <tr id="course_<%= course.id %>">
+          <td class="course-thumbnail">
+              <div class="course-icon">
+                <%= link_to image_tag(course.cover(:icon),
+                                      :class => 'thumbnail'),
+                            hash_path(course_path(course,
+                              :type => params[:type],
+                              :subtype => 'details')) %>
+              </div>
+          </td>
+          <td class="course-details">
+            <div class="pull-left">
+              <%= link_to truncate(course.name, :length => 70),
+                          hash_path(course_path(course,
+                            :type => params[:type],
+                            :subtype => 'details')) %>
+            </div>
+            <div class="pull-right">
+              <span class="label label-warning">
+                <%= course.amount_description %>
+              </span>
+            </div>
+            <div class="clear" />
+            <%= truncate strip_html(course.description), :length => 80 %>
+          </td>
+          <td class="rating-icon">
+            <%= render 'courses/rating', :course => course, :show_label => false %>
+          </td>
+          <%= render 'courses/badge', :course => course, :elem => '.course-icon' %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class="alert">
+    <%= t('courses.no_courses') %>
+  </div>
+<% end %>

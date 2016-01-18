@@ -1,0 +1,5 @@
+$('#modal').html('<%= escape_javascript(
+                        render "users/new", :user => @user) %>');
+$('#modal').modal();
+<%= render 'shared/modal_flash' %>
+window.initAjaxCSRF('<%= form_authenticity_token %>');

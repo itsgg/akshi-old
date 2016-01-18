@@ -1,0 +1,166 @@
+<%= form_for [current_user, course],
+             :html => {:class => 'form-horizontal', :remote => true} do |f| %>
+  <div class="row">
+    <div class="span8">
+      <fieldset>
+        <% if course.status == 'review' %>
+          <div class="alert">
+            <%= t('courses.under_review') %>
+          </div>
+        <% elsif course.status == 'rejected' %>
+          <div class="alert alert-error">
+            <%= t('courses.course_rejected') %>
+          </div>
+        <% end %>
+
+        <%= hidden_field_tag 'subtype', params[:subtype] %>
+        <%= hidden_field_tag 'type', params[:type] %>
+        <%= render :layout => 'shared/bootstrap_field',
+                   :locals => {:object => course,
+                               :type => :name, :f => f} do %>
+          <%= f.text_field :name, :class => 'span4',
+                           :placeholder => t('courses.placeholders.name'),
+                           :maxlength => 80 %>
+        <% end %>
+
+        <%= render :layout => 'shared/bootstrap_field',
+                   :locals => {:object => course,
+                               :type => :description, :f => f} do %>
+          <%= f.text_area :description,
+                          :placeholder => t('courses.placeholders.description'),
+                          :class => 'rich' %>
+        <% end %>
+
+        <%= render :layout => 'shared/bootstrap_field',
+                   :locals => {:object => course,
+                               :type => :category, :f => f} do %>
+          <%= f.select :category_id,
+                       options_from_collection_for_select(
+                                                    Category.all, 'id', 'name',
+                                                    f.object.category_id),
+                      {:include_blank => t('site.none')},
+                      {:class => 'span2 rich'} %>
+        <% end %>
+
+        <div class="control-group <%= 'error' if course.errors[:features].present? %>">
+          <%= f.label :features, :class => 'control-label' %>
+          <div class="controls">
+            <div class="pull-left">
+              <%= f.fields_for :features do |ff| %>
+                <ul id="features-list">
+                  <% Course::FEATURES.each do |feature| %>
+                    <li>
+                      <%= ff.check_box feature, :checked => course.feature_enabled?(feature) %>
+                      <%= ff.label feature, :class => 'checkbox inline' %>
+                    </li>
+                  <% end %>
+                </ul>
+              <% end %>
+            </div>
+            <span class="help-inline pull-left" style="padding-top: 5px;">
+              <%= course.errors[:features].first %>
+            </span>
+          </div>
+        </div>
+
+        <%= render :layout => 'shared/bootstrap_field',
+                   :locals => {:object => course,
+                               :type => :paid, :f => f} do %>
+          <%= f.check_box :paid %>
+        <% end %>
+
+        <div id="payment-inputs" class="payment-inputs">
+          <%= render :layout => 'shared/bootstrap_field',
+                     :locals => {:object => course,
+                                 :type => :offline_payment_instruction, :f => f} do %>
+            <%= f.text_area :offline_payment_instruction,
+                            :placeholder => t('courses.placeholders.offline_payment_instruction'),
+                            :class => 'rich' %>
+          <% end %>
+
+          <%= render :layout => 'shared/bootstrap_field',
+                     :locals => {:object => course,
+                                 :type => :amount, :f => f} do %>
+            <%= f.select :currency, options_for_select(Course::CURRENCY, course.currency),
+                         {}, {:class => 'span1 rich'}  %>
+            <%= f.text_field :amount, :class => 'span2',
+                             :placeholder => t('courses.placeholders.amount'),
+                             :maxlength => 80 %>
+            <% if course.reload.paid? %>
+              <%= link_to 'Vouchers', course_vouchers_path(course),
+                                      :remote => true,
+                          :id => 'voucher-link' %>
+            <% end %>
+          <% end %>
+        </div>
+
+        <%= render :layout => 'shared/bootstrap_field',
+                   :locals => {:object => course,
+                               :type => :featured, :f => f} do %>
+          <%= f.check_box :featured %>
+        <% end %>
+
+        <%= render :layout => 'shared/bootstrap_field',
+                   :locals => {:object => course,
+                               :type => :published, :f => f} do %>
+          <%= f.check_box :published,
+                          {:checked => ['published', 'review'].include?(course.status) } %>
+        <% end %>
+
+        <div class="control-group">
+          <div class="controls">
+            <%= f.submit t('courses.update'), :class => 'btn btn-primary' %>
+            <%= link_to t('courses.delete'), user_course_path(current_user, course,
+                                                   :type => 'teach'),
+                        :class => 'btn btn-danger', :method => :delete, :id => 'delete_course',
+                        :remote => true, :confirm => t('site.confirm') %>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+    <div class="span4">
+      <p>
+        <% if course.cover_errors? %>
+          <%= image_tag old_cover, :class => 'img-polaroid' %>
+        <% else %>
+          <%= image_tag course.cover(:large), :class => 'img-polaroid' %>
+        <% end %>
+      </p>
+      <p>
+        <%= f.file_field :cover, :accept => 'image/*', :class => 'rich',
+                         'data-filesize_limit' => Setting.upload.image_limit,
+                         'data-authenticity_token' => form_authenticity_token,
+                         'data-session_key' => cookies['akshi_session'] %>
+      </p>
+      <span class="help-inline error">
+        <%= course.errors[:cover_file_size].first %>
+      </span>
+    </div>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+  $(function() {
+
+    $('#course_currency').change(function() {
+      if($(this).val() !== 'Rs') {
+        $(this).find('~span.help-inline').addClass('error');
+        $(this).find('~span.help-inline').text('Currently only Rs');
+        $(this).val('Rs');
+      } else {
+        $(this).find('~span.help-inline').removeClass('error');
+        $(this).find('~span.help-inline').text('');
+      }
+    });
+
+    function togglePaymentInputs() {
+      $('#payment-inputs').toggle($('#course_paid').is(':checked'));
+    }
+
+    togglePaymentInputs();
+
+    $('#course_paid').change(function() {
+      togglePaymentInputs();
+    });
+  });
+</script>

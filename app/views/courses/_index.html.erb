@@ -1,0 +1,25 @@
+<div class="row">
+  <% if params[:type].blank? || params[:type] == 'home' %>
+    <%= render 'courses/front',
+               :upcoming_classes => upcoming_classes,
+               :recent_posts => recent_posts %>
+  <% end %>
+  <div class="span12">
+    <%= render 'courses/actionbar', :categories => categories %>
+  </div>
+  <div class="span9" id="courses">
+    <% if params[:viewas] == 'list' %>
+      <%= render 'courses/list', :courses => courses, :featured_courses => featured_courses %>
+    <% else %>
+      <%= render 'courses/grid', :courses => courses, :featured_courses => featured_courses %>
+    <% end %>
+    <div class="pull-right">
+      <%= page_navigation_links(courses) %>
+    </div>
+  </div>
+  <div class="span3">
+    <%= render 'courses/collections',
+               :root_collections => root_collections,
+               :current_collection => current_collection %>
+  </div>
+</div>

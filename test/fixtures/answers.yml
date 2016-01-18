@@ -1,0 +1,58 @@
+# == Schema Information
+#
+# Table name: answers
+#
+#  id          :integer          not null, primary key
+#  content     :text(2147483647)
+#  question_id :integer
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#
+
+one_one:
+  content: Answer one one
+  question: one
+
+one_two:
+  content: Answer one two
+  question: one
+
+one_three:
+  content: Answer one three
+  question: one
+
+one_four:
+  content: Answer one four
+  question: one
+
+two_one:
+  content: Answer two one
+  question: two
+
+two_two:
+  content: Answer two two
+  question: two
+
+two_three:
+  content: Answer two three
+  question: two
+
+two_four:
+  content: Answer two four
+  question: two
+
+three_one:
+  content: Answer three one
+  question: three
+
+three_two:
+  content: Answer three two
+  question: three
+
+three_three:
+  content: Answer three three
+  question: three
+
+three_four:
+  content: Answer three four
+  question: three

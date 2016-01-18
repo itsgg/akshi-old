@@ -1,0 +1,13 @@
+<div class="page-header">
+  <h4>
+    <%= @collection.name %>
+  </h4>
+</div>
+<ul class="nav nav-tabs">
+  <li class="<%= menu_class('details') %>">
+    <%= link_to t('courses.menu.details'),
+               hash_path(package_path(:collection_id => @collection.id,
+                          :type => params[:type],
+                          :subtype => 'details')) %>
+  </li>
+</ul>

@@ -1,0 +1,79 @@
+<div class="page-header">
+  <h4>
+    <%= course.name %>
+    <% if logged_in? %>
+      -
+      <% if current_user.teacher?(course.id) %>
+        <%= t('account.menu.teaching') %>
+      <% else %>
+        <%= t('account.menu.learning') %>
+      <% end %>
+    <% end %>
+  </h4>
+</div>
+
+<ul class="nav nav-tabs">
+  <li class="<%= menu_class('details') %>">
+    <%= link_to t('courses.menu.details'),
+                hash_path(course_path course, :subtype => 'details',
+                          :type => params[:type]) %>
+  </li>
+
+  <% if course.users.include?(current_user) %>
+    <% if current_user.teacher?(@course.id) %>
+    <li class="<%= menu_class('subjects') %>">
+          <%= link_to t('courses.menu.subjects'),
+                      hash_path(course_subjects_path course, :subtype => 'subjects',
+                                :type => params[:type]) %>
+    </li>
+    <% end %>
+  <% end %>
+
+  <% if course.users.include?(current_user) %>
+    <% if course.feature_enabled?('announcement') %>
+      <li class="<%= menu_class('announcements') %>">
+        <%= link_to t('courses.menu.announcements'),
+                    hash_path(course_announcements_path course, :subject => "All", :subtype => 'announcements',
+                              :type => params[:type]) %>
+      </li>
+    <% end %>
+
+    <% if course.feature_enabled?('lesson') %>
+      <li class="<%= menu_class('lessons') %>">
+        <%= link_to t('courses.menu.lessons'),
+                    hash_path(course_lessons_path course, :subject => "All", :subtype => 'lessons',
+                              :type => params[:type]) %>
+      </li>
+    <% end %>
+
+    <% if course.feature_enabled?('discussion') %>
+      <li class="<%= menu_class('discussion') %>">
+        <%= link_to t('courses.menu.discussion'),
+                    hash_path(course_topics_path course,
+                              :subtype => 'discussion', :subject => "All", :type => params[:type]) %>
+      </li>
+    <% end %>
+
+    <% if course.feature_enabled?('quiz') %>
+      <li class="<%= menu_class('quizzes') %>">
+        <%= link_to t('courses.menu.quizzes'),
+                    hash_path(course_quizzes_path course, :subject => "All",
+                              :subtype => 'quizzes', :type => params[:type]) %>
+      </li>
+    <% end %>
+
+    <% if course.feature_enabled?('live') %>
+      <li class="<%= menu_class('live') %>">
+        <%= link_to t('courses.menu.live'),
+                    hash_path(course_live_path course, :subtype => 'live',
+                              :type => params[:type]) %>
+      </li>
+    <% end %>
+
+  <% end %>
+  <li class="<%= menu_class('users') %>">
+    <%= link_to t('courses.menu.users'),
+                hash_path(users_course_path course, :subtype => 'users',
+                          :type => params[:type]) %>
+  </li>
+</ul>

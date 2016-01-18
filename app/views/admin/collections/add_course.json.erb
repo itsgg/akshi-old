@@ -1,0 +1,8 @@
+{
+  <% if @success %>
+    "success": true
+  <% else %>
+    "success": false,
+    "message": "<%= t('collections.failed_to_add') %>"
+  <% end %>
+}

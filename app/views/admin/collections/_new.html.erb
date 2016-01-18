@@ -1,0 +1,45 @@
+<%= form_for [:admin, collection],
+             :html => {:class => 'form-horizontal', :remote => true} do |f| %>
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <h4><%= t('collections.new') %></h4>
+  </div>
+
+  <div class="modal-body">
+    <fieldset>
+      <%= hidden_field_tag 'type', params[:type] %>
+      <%= render :layout => 'shared/bootstrap_field',
+                 :locals => {:object => collection,
+                             :type => :name, :f => f} do %>
+        <%= f.text_field :name,
+                         :placeholder => t('collections.placeholders.name'),
+                         :maxlength => 80 %>
+      <% end %>
+
+      <%= render :layout => 'shared/bootstrap_field',
+                 :locals => {:object => collection,
+                             :type => :position, :f => f} do %>
+        <%= f.text_field :position,
+                         :placeholder => t('collections.placeholders.position'),
+                         :maxlength => 80 %>
+      <% end %>
+
+      <%= render :layout => 'shared/bootstrap_field',
+                 :locals => {:object => collection,
+                             :type => :parent, :f => f} do %>
+        <%= f.select :parent_id,
+                     options_from_collection_for_select(
+                                                  Collection.all, 'id', 'name',
+                                                  f.object.parent_id),
+                    {:include_blank => t('site.none')},
+                    {:class => 'span2 rich'} %>
+      <% end %>
+    </fieldset>
+  </div>
+  <div class="modal-footer">
+    <%= f.submit t('collections.create'), :class => 'btn btn-primary' %>
+    <button class="btn" data-dismiss="modal">
+      <%= t('site.close') %>
+    </button>
+  </div>
+<% end %>

@@ -1,0 +1,12 @@
+<% if @success %>
+  $('#modal').modal('hide');
+  location.hash = '<%= raw hash_path(quiz_question_path(@quiz, @question,
+                                     :type => params[:type], :subtype => params[:subtype])) %>';
+<% else %>
+  $('#modal').html('<%= escape_javascript(
+                        render "questions/new", :course => @quiz.course,
+                               :quiz => @quiz, :question => @question,
+                               :questions => @questions) %>');
+  <%= render 'shared/modal_flash' %>
+<% end %>
+window.initAjaxCSRF('<%= form_authenticity_token %>');

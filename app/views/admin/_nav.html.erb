@@ -1,0 +1,29 @@
+<ul class="nav nav-tabs">
+  <li class="<%= menu_class('admin_categories') %>">
+    <%= link_to t('admin.categories'),
+                hash_path(admin_categories_path :type => 'admin',
+                                                :subtype => 'admin_categories') %>
+  </li>
+  <li class="<%= menu_class('admin_collections') %>">
+    <%= link_to t('admin.collections'),
+                hash_path(admin_collections_path :type => 'admin',
+                                                 :subtype => 'admin_collections') %>
+  </li>
+  <li class="<%= menu_class('admin_courses') %>">
+    <%= link_to t('admin.courses'),
+                hash_path(admin_courses_path :type => 'admin',
+                                             :subtype => 'admin_courses') %>
+  </li>
+
+  <li class="<%= menu_class('admin_comments') %>">
+    <%= link_to t('admin.comments'),
+                hash_path(admin_comments_path :type => 'admin',
+                                              :subtype => 'admin_comments') %>
+  </li>
+
+  <li class="<%= menu_class('admin_users') %>">
+    <%= link_to t('admin.users'),
+                hash_path(admin_users_path :type => 'admin',
+                                           :subtype => 'admin_users') %>
+  </li>
+</ul>

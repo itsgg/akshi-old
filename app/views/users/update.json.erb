@@ -1,0 +1,10 @@
+{
+  "success": true,
+  <% if @success %>
+    "status": "success",
+    "message": "<%= flash[:notice] %>"
+  <% else %>
+    "status": "failure",
+    "message": "<%= @user.errors.full_messages.first %>"
+  <% end %>
+}

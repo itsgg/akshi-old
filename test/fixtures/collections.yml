@@ -1,0 +1,35 @@
+# == Schema Information
+#
+# Table name: collections
+#
+#  id                          :integer          not null, primary key
+#  name                        :string(255)
+#  ancestry                    :string(255)
+#  created_at                  :datetime         not null
+#  updated_at                  :datetime         not null
+#  position                    :integer
+#  description                 :text
+#  cover_file_name             :string(255)
+#  cover_content_type          :string(255)
+#  cover_file_size             :integer
+#  cover_updated_at            :datetime
+#  discount                    :integer
+#  offline_payment_instruction :text
+#  paid                        :boolean          default(TRUE)
+#
+
+engineering_coaching:
+  name: Engineering coaching
+  id: 1
+
+medical_coaching:
+  name: Medical coaching
+  id: 2
+
+foundation_engineering:
+  name: Foundation course
+  ancestry: 1
+
+foundation_medicine:
+  name: Foundation course
+  ancestry: 2

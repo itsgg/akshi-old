@@ -1,0 +1,7 @@
+<script type="text/javascript" src="<%= "#{request.protocol}#{request.host}:9000/socket.io/socket.io.js" %>"></script>
+<script type="text/javascript">
+  window.socket = io.connect('<%= "#{request.protocol}#{request.host}:9000?token=#{Setting.socket.token}" %>');
+  window.socket.on('error', function(reason) {
+    window.showFlash('Socket error', reason);
+  });
+</script>

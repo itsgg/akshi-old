@@ -1,0 +1,28 @@
+<div class="well well-small well-condensed">
+  <div class="pull-left">
+    <%= render 'announcements/search', :course => course %>
+  </div>
+  <div class="pull-left filter">
+      <% if params[:q].try(:[], 'content_cont').present? %>
+      <span class="label label-info">
+        <%= link_to raw("&times;"),
+                    hash_path(course_announcements_path(course,
+                                           :subject => "All",
+                                           :type => params[:type],
+                                           :subtype => params[:subtype],
+                                           :q => nil)),
+                    :class => 'close-tag', :rel => 'tooltip', :title => 'Remove filter' %>
+        <%= params[:q][:content_cont] %>
+      </span>
+    <% end %>
+  </div>
+  <% if current_user.teacher?(course.id) %>
+    <div class="pull-right">
+      <%= link_to t('announcements.new'),
+                  new_course_announcement_path(:type => params[:type], :subject => "All",
+                                               :subtype => params[:subtype]),
+                  :class => 'btn btn-primary',
+                  :remote => true %>
+    </div>
+  <% end %>
+</div>

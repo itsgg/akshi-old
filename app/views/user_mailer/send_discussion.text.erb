@@ -1,0 +1,12 @@
+Hi <%= @user.fullname %>,
+
+<%= @topic.user.fullname %> posted the following discussion in '<%= @topic.course.name %>'
+
+<%= raw @topic.brief_content %>
+
+Go to the post <%= hash_url(@topic_url, @topic_path) + '?subtype=discussion' %>.
+
+You can disable discussion notifications from your profile page.
+
+<%= t('site.title') %>,
+<%= t('site.subtitle') %>

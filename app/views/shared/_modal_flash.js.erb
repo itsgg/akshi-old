@@ -1,0 +1,6 @@
+$('#modal .flash').remove();
+$('#modal').append('<%= escape_javascript(
+                        render :partial => "shared/flash_messages",
+                               :locals => {:flash => flash}) %>');
+$('#modal .flash').slideDown();
+$('#modal .flash').delay(3000).slideUp();

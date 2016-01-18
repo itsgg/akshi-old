@@ -1,0 +1,17 @@
+<div class="progress progress-striped active">
+  <div class="bar" style="width: 100%;">
+    <%= t('lessons.upload_being_converted') %>
+  </div>
+</div>
+
+<script type="text/javascript">
+  (function() {
+    function updateViewer() {
+      $.get('<%= conversion_status_course_lesson_path(course, lesson,
+                 :type => params[:type], :subtype => params[:subtype]) %>', {
+        format: 'js'
+      });
+    };
+    setTimeout(updateViewer, 5000);
+  })();
+</script>

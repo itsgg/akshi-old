@@ -1,0 +1,38 @@
+<%= render 'courses/menu', :course => course %>
+<%= render 'quizzes/actionbar', :course => course %>
+
+<% if quizzes.present? %>
+<div class="row">
+  <div class="tabs-left span4">
+    <%= render 'quizzes/nav', :course => course, :quiz => quiz,
+               :quizzes => quizzes %>
+  </div>
+  <div class="span8" id="quizzes">
+    <% if current_user.teacher?(course.id) %>
+      <%= render 'quizzes/edit', :course => course, :quiz => quiz, :quizzes => quizzes %>
+    <% else %>
+      <% unless quiz.completed?(current_user.id) %>
+        <div class="page-header">
+          <h5><%= quiz.name %></h5>
+        </div>
+        <p>
+          <%= raw quiz.instruction %>
+        </p>
+        <div class="center">
+          <%= link_to 'Start quiz',
+                hash_path(quiz_questions_path(quiz, :type => params[:type],
+                                              :subtype => params[:subtype], :subject => params[:subject])),
+                :class => 'btn btn-large btn-danger', :id => 'start_quiz',
+                :confirm => t('site.confirm') %>
+        </div>
+      <% else %>
+        <%= render 'quizzes/result', :quiz => quiz, :course => course, :subject => params[:subject] %>
+      <% end %>
+    <% end %>
+  </div>
+  </div>
+<% else %>
+  <div class="alert">
+    <%= t('quizzes.no_quizzes') %>
+  </div>
+<% end %>

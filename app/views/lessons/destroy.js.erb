@@ -1,0 +1,5 @@
+// Go to the first page
+location.hash = '<%= raw hash_path(course_lessons_path(@course,
+                         :type => params[:type], :subtype => params[:subtype],
+                         :touch => Time.now.to_i)) %>';
+window.initAjaxCSRF('<%= form_authenticity_token %>');

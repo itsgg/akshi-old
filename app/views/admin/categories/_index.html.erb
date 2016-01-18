@@ -1,0 +1,51 @@
+<%= render 'admin/nav' %>
+<%= render 'admin/categories/actionbar' %>
+<% if categories.present? %>
+  <table class="table table-striped table-hover" id="categories">
+    <tbody>
+      <% categories.each do |category| %>
+        <tr id="category_<%= category.id %>">
+          <td style="vertical-align: middle;">
+            <div class="pull-left" style="padding: 0 5px 0 5px;">
+              <i class="icon-reorder icon-gray" />
+            </div>
+            <%= category.name %>
+            <span class="muted">
+                (<%= t('categories.course', :count => category.courses.count) %>)
+            </span>
+          </td>
+          <td style="width: 150px; vertical-align: middle;">
+            <%= link_to t('categories.edit'), edit_admin_category_path(category),
+                        :class => 'btn', :remote => true %>
+            <%= link_to t('categories.delete'), admin_category_path(category),
+                        :class => 'btn btn-danger', :method => :delete,
+                        :remote => true, :confirm => t('site.confirm') %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <div class="pull-right">
+    <%= page_navigation_links(categories) %>
+  </div>
+<% else %>
+  <div class="alert">
+    <%= t('categories.no_categories') %>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+  $('#categories tbody').sortable({
+    cursor: 'move',
+    stop: function(event, ui) {
+      $.ajax({
+        url: '<%= sort_admin_categories_path %>',
+        type: 'POST',
+        data: '_method=put&' + $(this).sortable('serialize')
+      });
+    }
+  });
+  $('#categories tbody').disableSelection();
+</script>
+
+

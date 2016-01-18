@@ -1,0 +1,41 @@
+defaults: &defaults
+  upload:
+    lesson_limit: <%= 1000.megabytes %>
+    image_limit: <%= 2.megabytes %>
+  rtmp:
+    live: rtmp://localhost/live
+    vod: rtmp://localhost/vod
+    password: Flipendo123
+  socket:
+    url: http://localhost:9000/
+    password: Flipendo123
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+staging:
+  <<: *defaults
+  rtmp:
+    live: rtmp://akshi.co/live
+    vod: rtmp://akshi.co/vod
+    password: Flipendo123
+  socket:
+    url: https://akshi.co:9000/
+  resque:
+    user: root
+    password: Flipendo123
+
+production:
+  <<: *defaults
+  rtmp:
+    live: rtmp://akshi.com/live
+    vod: rtmp://akshi.com/vod
+    password: Flipendo123
+  socket:
+    url: https://akshi.com:9000/
+  resque:
+    user: root
+    password: Flipendo123

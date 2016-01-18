@@ -1,0 +1,48 @@
+<%= form_tag sessions_path(:type => params[:type]),
+             :class => 'form-horizontal', :remote => true  do %>
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <h4><%= t('login.login') %></h4>
+  </div>
+  <div class="modal-body">
+    <fieldset>
+      <div class="control-group">
+        <%= label_tag 'username', nil, :class => 'control-label' %>
+        <div class="controls">
+          <%= text_field_tag 'username' %>
+        </div>
+      </div>
+      <div class="control-group">
+        <%= label_tag 'password', nil, :class => 'control-label' %>
+        <div class="controls">
+          <%= password_field_tag 'password' %>
+        </div>
+      </div>
+      <div class="control-group">
+        <div class="controls">
+          <%= link_to t('forgot_password.forgot_password'),
+                      forgot_password_users_path, :remote => true %>
+        </div>
+      </div>
+    </fieldset>
+  </div>
+  <div class="modal-footer">
+    <%= submit_tag t('login.login'), :class => 'btn btn-primary' %>
+    <button class="btn" data-dismiss="modal">
+      <%= t('site.close') %>
+    </button>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+  function showHome() {
+    location.hash = '<%= raw hash_path(root_path) %>';
+    $('#main_menu').html('<%= escape_javascript(render "layouts/main_menu") %>');
+  }
+  $('#close-login').one('click', function() {
+    showHome();
+  });
+  $('#modal').one('hidden', function() {
+    showHome();
+  });
+</script>

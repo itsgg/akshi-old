@@ -1,0 +1,64 @@
+<% if featured_courses.present? %>
+  <div class='page-header'>
+    <h4><%= t('courses.featured') %></h4>
+  </div>
+  <ul class="thumbnails">
+    <% featured_courses.each do |featured_course| %>
+      <li class="span3" id="course_<%= featured_course.id %>">
+        <div class="thumbnail">
+          <%= link_to image_tag(featured_course.cover(:normal)),
+                      hash_path(course_path(featured_course,
+                        :type => params[:type],
+                        :subtype => 'details')) %>
+          <div class="caption">
+            <%= link_to truncate(featured_course.name, :length => 60),
+                        hash_path(course_path(featured_course,
+                          :type => params[:type],
+                          :subtype => 'details')) %>
+            <br />
+            <div class="label label-warning">
+              <%= featured_course.amount_description %>
+            </div>
+          </div>
+          <%= render 'courses/rating', :course => featured_course, :show_label => false %>
+          <%= render 'courses/badge', :course => featured_course, :elem => '.thumbnail' %>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+  <hr />
+<% end %>
+
+<% if courses.present? %>
+  <div class='page-header'>
+    <h4>Popular courses</h4>
+  </div>
+  <ul class="thumbnails">
+    <% courses.each do |course| %>
+      <li class="span3" id="course_<%= course.id %>">
+        <div class="thumbnail">
+          <%= link_to image_tag(course.cover(:normal)),
+                      hash_path(course_path(course,
+                        :type => params[:type],
+                        :subtype => 'details')) %>
+          <div class="caption">
+            <%= link_to truncate(course.name, :length => 60),
+                        hash_path(course_path(course,
+                          :type => params[:type],
+                          :subtype => 'details')) %>
+            <br />
+            <div class="label label-warning">
+              <%= course.amount_description %>
+            </div>
+          </div>
+          <%= render 'courses/rating', :course => course, :show_label => false %>
+          <%= render 'courses/badge', :course => course, :elem => '.thumbnail' %>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <div class="alert">
+    <%= t('courses.no_courses') %>
+  </div>
+<% end %>

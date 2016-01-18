@@ -1,0 +1,3 @@
+location.hash = '<%= raw hash_path(root_path(:type => params[:type],
+                                             :touch => Time.now.to_i)) %>';
+window.initAjaxCSRF('<%= form_authenticity_token %>');

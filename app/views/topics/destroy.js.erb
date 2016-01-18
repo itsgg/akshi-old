@@ -1,0 +1,9 @@
+<% if @topic.top? %>
+  // Go to the first page
+  location.hash = '<%= raw hash_path(course_topics_path(@course,
+                            :type => params[:type], :subtype => params[:subtype],
+                            :page => params[:page], :touch => Time.now.to_i)) %>';
+<% else %>
+  $(window).hashchange();
+<% end %>
+window.initAjaxCSRF('<%= form_authenticity_token %>');

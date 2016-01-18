@@ -1,0 +1,15 @@
+<% if lesson.upload.present? %>
+  <div id="document_viewer">
+    <% lesson.processed_uploads.each do |file| %>
+      <img src="<%= file %>" />
+    <% end %>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+  Galleria.configure({
+    imageCrop: 'height'
+  });
+  Galleria.loadTheme('/javascripts/galleria/galleria.twelve.min.js');
+  Galleria.run('#document_viewer');
+</script>

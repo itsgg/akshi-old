@@ -1,0 +1,28 @@
+# == Schema Information
+#
+# Table name: schedules
+#
+#  id          :integer          not null, primary key
+#  description :string(255)
+#  start_time  :datetime
+#  course_id   :integer
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  mode        :string(255)      default("LIVE")
+#  lesson_id   :integer
+#
+
+one:
+  description: Live class one
+  start_time: <%= 1.day.from_now %>
+  course: eng101
+
+two:
+  description: Live class two
+  start_time: <%= 1.day.ago %>
+  course: math101
+
+three:
+  description: Live class three
+  start_time: <%= 2.days.from_now %>
+  course: comp101

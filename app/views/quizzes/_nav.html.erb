@@ -1,0 +1,22 @@
+<ul class="nav nav-tabs">
+  <% quizzes.each do |current_quiz| %>
+    <li class="<%= 'active' if current_quiz == quiz %>">
+      <%= link_to quiz_nav_link(current_quiz),
+                  hash_path(course_quiz_path(course, current_quiz,
+                            :type => params[:type],
+                            :subtype => params[:subtype],
+                            :page => params[:page],
+                            :per_page => params[:per_page],
+                            :subject => params[:subject],
+                            :q => params[:q])),
+                  :class => 'scroll-top' %>
+    </li>
+  <% end %>
+</ul>
+
+<div class="center clearfix">
+  <%= page_navigation_links(quizzes, :page_links => false) %>
+  <span class="muted">
+    <%= page_entries_info quizzes %>
+  </span>
+</div>

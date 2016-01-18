@@ -1,0 +1,92 @@
+<%= render 'courses/menu', :course => course %>
+
+<div id="course_<%= course.id %>">
+  <% if current_user.try(:teacher?, course.id) %>
+    <%= render 'courses/edit', :course => course %>
+  <% else %>
+    <div class="row">
+      <div class="span8">
+        <% if course.description.present? %>
+          <%= raw course.description %> <br />
+        <% else %>
+          <div class="alert"><%= t('courses.no_description') %></div>
+        <% end %>
+        <div class="label label-warning">
+          <%= course.amount_description %>
+        </div>
+        <hr />
+        <% if logged_in? %>
+          <% if current_user.student?(course.id) %>
+            <% if course.paid? %>
+              <div class="alert">
+                <%= t('courses.paid_dropout') %>
+              </div>
+            <% else %>
+              <%= link_to t('courses.dropout'),
+                          dropout_user_course_path(current_user, course,
+                                                   :type => 'learn'),
+                          :class => 'btn btn-danger', :remote => true,
+                          :method => :post, :confirm => t('site.confirm') %>
+            <% end %>
+          <% else %>
+            <% if course.paid? && !current_user.admin? %>
+              <%= link_to t('courses.pay_online'),
+                          pay_online_user_course_path(current_user, course, :type => 'learn'),
+                          :class => 'btn btn-primary', :remote => true %>
+              <%= link_to t('courses.enroll_by_voucher'),
+                          enter_voucher_user_course_path(current_user, course,
+                                                  :type => 'learn'),
+                          :class => 'btn', :remote => true %>
+              <%= link_to t('courses.pay_offline'), nil,
+                          :id => 'show-offline-payment-instruction',
+                          :class => 'btn' %>
+              <div class="modal hide" id="offline-payment-instruction">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">×</button>
+                  <h4><%= t('courses.placeholders.offline_payment_instruction') %></h4>
+                </div>
+                <div class="modal-body scroll">
+                  <% if course.offline_payment_instruction.present? %>
+                    <%= raw course.offline_payment_instruction %>
+                  <% else %>
+                    <div class="alert">
+                      <%= t('courses.no_offline_payment_instruction') %>
+                    </div>
+                  <% end %>
+                </div>
+                <div class="modal-footer">
+                  <button class="btn" data-dismiss="modal">
+                    <%= t('site.close') %>
+                  </button>
+                </div>
+              </div>
+            <% else %>
+              <%= link_to t('courses.enroll'),
+                          enroll_user_course_path(current_user, course,
+                                                  :type => 'learn'),
+                          :class => 'btn btn-primary', :remote => true,
+                          :method => :post %>
+            <% end %>
+          <% end %>
+        <% else %>
+          <div class="alert">
+            <%= t('courses.login_to_enroll') %>
+          </div>
+        <% end %>
+      </div>
+      <div class="span4" >
+        <%= image_tag course.cover(:large), :class => 'img-polaroid' %>
+        <div class="rating student-rating"></div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<%= render 'courses/rating', :course => course, :show_label => true %>
+
+<script type="text/javascript">
+  $('#show-offline-payment-instruction').click(function() {
+    $('#offline-payment-instruction').modal();
+    return false;
+  });
+</script>

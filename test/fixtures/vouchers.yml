@@ -1,0 +1,42 @@
+# == Schema Information
+#
+# Table name: vouchers
+#
+#  id         :integer          not null, primary key
+#  code       :string(255)
+#  status     :string(255)      default("new")
+#  course_id  :integer
+#  user_id    :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
+one:
+  code: 13423434
+  course: eng101
+
+one_two:
+  code: 13423435
+  course: eng101
+  status: active
+
+one_three:
+  code: 13423436
+  course: eng101
+  status: used
+
+two:
+  code: 24342342
+  course: comp101
+  user_id: gg
+  status: used
+
+three:
+  code: 3234324
+  course: ruby101
+  status: active
+
+four:
+  code: 324234
+  course: math101
+  status: active

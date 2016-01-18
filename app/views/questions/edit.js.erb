@@ -1,0 +1,6 @@
+$('#modal').html('<%= escape_javascript(
+                      render "questions/edit", :quiz => @quiz,
+                             :question => @question, :questions => @questions) %>');
+$('#modal').modal();
+<%= render 'shared/modal_flash' %>
+window.initAjaxCSRF('<%= form_authenticity_token %>');

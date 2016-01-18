@@ -1,0 +1,16 @@
+<%= render 'courses/menu', :course => course %>
+
+<%= hidden_field_tag "slide_info", 1 %>
+<div class="row">
+  <div class="span8">
+    <div id="whiteboard-content">
+      <%= render 'lives/whiteboard', :course => course, :slides => slides,
+                  :current_slide => current_slide, :next_class => next_class %>
+    </div>
+  </div>
+
+  <div class="span4">
+    <%= render 'lives/stream', :course => course %>
+    <%= render 'chats/index', :course => course, :chats => chats %>
+  </div>
+</div>

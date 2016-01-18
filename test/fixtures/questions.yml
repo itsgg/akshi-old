@@ -1,0 +1,26 @@
+# == Schema Information
+#
+# Table name: questions
+#
+#  id                :integer          not null, primary key
+#  content           :text(2147483647)
+#  quiz_id           :integer
+#  correct_answer_id :integer
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#
+
+one:
+  content: Test question one
+  quiz: prob
+  correct_answer: one_three
+
+two:
+  content: Test question two
+  quiz: verbs
+  correct_answer: two_one
+
+three:
+  content: Test question three
+  quiz: test
+  correct_answer: three_four

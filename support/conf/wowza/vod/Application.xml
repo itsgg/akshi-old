@@ -1,0 +1,41 @@
+<Root>
+  <Application>
+    <Connections>
+      <AutoAccept>true</AutoAccept>
+      <AllowDomains></AllowDomains>
+    </Connections>
+    <Streams>
+      <StreamType>default</StreamType>
+      <StorageDir>${com.wowza.wms.context.VHostConfigHome}/content</StorageDir>
+      <KeyDir>${com.wowza.wms.context.VHostConfigHome}/keys</KeyDir>
+    </Streams>
+    <Modules>
+      <Module>
+        <Name>base</Name>
+        <Description>Base</Description>
+        <Class>com.wowza.wms.module.ModuleCore</Class>
+      </Module>
+      <Module>
+        <Name>logging</Name>
+        <Description>Client Logging</Description>
+        <Class>com.wowza.wms.module.ModuleClientLogging</Class>
+      </Module>
+      <Module>
+        <Name>flvplayback</Name>
+        <Description>FLVPlayback</Description>
+        <Class>com.wowza.wms.module.ModuleFLVPlayback</Class>
+      </Module>
+      <Module>
+        <Name>ModuleSecureToken</Name>
+        <Description>ModuleSecureToken</Description>
+        <Class>com.wowza.wms.security.ModuleSecureToken</Class>
+      </Module>
+    </Modules>
+    <Properties>
+      <Property>
+        <Name>secureTokenSharedSecret</Name>
+        <Value>lwPnJvHfp0tqp7OX</Value>
+      </Property>
+    </Properties>
+  </Application>
+</Root>

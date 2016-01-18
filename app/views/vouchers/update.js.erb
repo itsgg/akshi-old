@@ -1,0 +1,5 @@
+$('#voucher_<%= @voucher.id %>').html('<%= escape_javascript(render "vouchers/voucher",
+                                              :voucher => @voucher,
+                                              :course => @course) %>');
+<%= render 'shared/modal_flash' %>
+window.initAjaxCSRF('<%= form_authenticity_token %>');

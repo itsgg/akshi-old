@@ -1,0 +1,7 @@
+<% if current_user.teacher?(course.id) %>
+  <%= render 'lessons/menu', :lesson => lesson, :course => course,
+                             :active => 'edit' %>
+  <%= render 'lessons/edit', :lesson => lesson, :course => course %>
+<% else %>
+  <%= render 'lessons/lesson', :lesson => lesson, :course => course %>
+<% end %>

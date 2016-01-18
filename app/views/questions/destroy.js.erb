@@ -1,0 +1,3 @@
+location.hash = '<%= raw hash_path(quiz_questions_path(@quiz, :type => params[:type],
+                          :subtype => params[:subtype], :touch => Time.now.to_i)) %>';
+window.initAjaxCSRF('<%= form_authenticity_token %>');

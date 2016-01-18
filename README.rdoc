@@ -1,0 +1,25 @@
+# Introduction
+
+Akshi is a simple social learning platform.
+
+## Development
+
+Checking indices
+
+    rake db:find_indexes
+
+Checking N+1
+
+    tail -f log/bullet.log
+
+## Test
+
+    ~/bin/chromedriver
+
+## Test payment
+
+    Card Holder: Test
+    VISA: 4111111111111111
+    Expiry: 07/16
+    CVV: 123
+    Issuing Bank: Test

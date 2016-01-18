@@ -1,0 +1,153 @@
+<% if quiz.completed?(current_user.id) %>
+  <%= render 'quizzes/menu', :quiz => quiz, :course => course,
+                             :active => 'review' %>
+<% end %>
+
+<% if quiz.has_time_limit? && !quiz.completed?(current_user.id) %>
+  <div id="quiz-timer">
+    <div id="timer" class="text-info"></div>
+  </div>
+<% end %>
+
+<% if question.present? %>
+  <div class="question clearfix">
+    <span class="muted number-prefix"><%= params[:question_page] || 1 %></span>.
+    <%= raw question.content %>
+  </div>
+  <h5><%= t('questions.answers') %></h5>
+  <table class="table table-striped table-hover">
+    <tbody>
+      <% question.answers.each_with_index do |answer, index| %>
+        <tr>
+          <td>
+            <span class="muted number-prefix"><%= (index + 97).chr %></span>.
+            <%= raw answer.content %>
+          </td>
+          <% unless quiz.completed?(current_user.id) %>
+            <td style="width: 50px;">
+              <input type="radio" name="selected-answer"
+                     value="<%= answer.id %>" class="selected-answer"
+                     id="selected-answer_<%= answer.id %>"
+                     <%= 'checked' if answer == user_response.try(:answer) %>>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <% if quiz.completed?(current_user.id) %>
+    <div class="alert">
+      <% if question.student_answer(current_user.id).present? %>
+        <strong>Your answer: <%= question.student_answer_alpha_index(current_user.id) %></strong>
+        <p><%= raw question.student_answer(current_user.id).content %></p>
+      <% else %>
+        You didn't answer this question.
+      <% end %>
+    </div>
+    <div class="alert alert-info">
+      <strong>Correct answer: <%= question.correct_answer_alpha_index %></strong>
+      <p><%= raw question.correct_answer.content %></p>
+    </div>
+  <% end %>
+  <div class="center">
+    <%= render 'questions/nav', :quiz => quiz,
+               :questions => questions, :question => question, :course => course %>
+  </div>
+  <% unless quiz.completed?(current_user.id) %>
+    <hr />
+    <div class="center">
+      <%= link_to 'Complete quiz',
+            complete_course_quiz_path(course, quiz, :type => params[:type],
+                                      :subtype => params[:subtype], :subject => params[:subject]),
+            :method => 'post', :remote => true,
+            :class => 'btn btn-large btn-danger', :id => 'complete_quiz',
+            :confirm => t('site.confirm') %>
+    </div>
+    <script type="text/javascript">
+      $('.selected-answer').change(function() {
+        $.ajax({
+          type: 'POST',
+          url: '<%= quiz_responses_path(quiz) %>',
+          data: {
+            format: 'js',
+            response: {
+              answer_id: $(this).val(),
+              question_id: '<%= question.id %>'
+            }
+          }
+        });
+      });
+    </script>
+  <% end %>
+<% else %>
+  <div class="alert">
+    <%= t('questions.no_questions') %>
+  </div>
+<% end %>
+
+<% if quiz.has_time_limit? && !quiz.completed?(current_user.id) %>
+  <script type="text/javascript">
+    var QuizTimer = new(function() {
+      var $quizTimer;
+      var incrementTime = 50;
+      var currentTime = <%= quiz.current_session(current_user.id).remaining_time_in_seconds * 100 %>;
+      var timer;
+
+      var updateTimer = function() {
+        $quizTimer.html(formatTime(currentTime));
+        // Warn when the time is less than 10 seconds
+        if (currentTime <= 1000) {
+          if ($quizTimer.hasClass('text-info')) {
+            $quizTimer.removeClass('text-info')
+            $quizTimer.addClass('text-warning');
+          }
+        }
+        if (currentTime == 0) {
+          timer.stop();
+          timerComplete();
+          return;
+        }
+        currentTime -= incrementTime / 10;
+        if (currentTime < 0) {
+          currentTime = 0;
+        }
+      };
+
+      var timerComplete = function() {
+        // Complete the quiz when the timer expires
+        $.ajax({
+          url: '/courses/' + '<%= course.to_param %>' + '/quizzes/' +
+               '<%= quiz.to_param %>' + '/complete.js',
+          type: 'POST',
+          data: {
+            type: '<%= params[:type] %>',
+            subtype: '<%= params[:subtype] %>'
+          }
+        });
+      }
+
+      var init = function() {
+        $quizTimer = $('#timer');
+        timer = $.timer(updateTimer, incrementTime, true);
+      }
+
+      init();
+    });
+
+    function pad(number, length) {
+        var str = '' + number;
+        while (str.length < length) {
+          str = '0' + str;
+        }
+        return str;
+    }
+
+    function formatTime(time) {
+      var min = parseInt(time / 6000);
+      var sec = parseInt(time / 100) - (min * 60);
+      var hundredths = pad(time - (sec * 100) - (min * 6000), 2);
+      return (min > 0 ? pad(min, 2) : "00") + ":" + pad(sec, 2) + ":" + hundredths;
+    }
+
+  </script>
+<% end %>

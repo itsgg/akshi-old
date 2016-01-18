@@ -1,0 +1,58 @@
+<%= render 'admin/nav' %>
+
+<% if comments.present? %>
+  <table class="table table-striped table-hover">
+    <tbody>
+      <% comments.each do |comment| %>
+        <tr>
+          <td class="user-icon">
+              <% if comment.user.present? %>
+                <%= image_tag comment.user.avatar(:icon), :class => 'thumbnail' %>
+              <% else %>
+                <%= image_tag 'users-placeholder-icon.png', :class => 'thumbnail' %>
+              <% end %>
+          </td>
+          <td class="comment-details">
+            <%= raw(comment.content) %>
+            <br />
+            <%= link_to comment.post.title, hash_path(post_path(comment.post)) %>
+            <br />
+            <div class="pull-left muted">
+              <% if comment.user.present? %>
+                <%= link_to comment.user.fullname, hash_path(user_path(comment.user,
+                                                    :type => params[:type])) %>
+              <% else %>
+                <%= link_to comment.email, "mailto:#{comment.email}", :type => params[:type] %>
+              <% end %>
+              <%= t('topics.posted') %>
+              <%= timeago comment.updated_at %>
+            </div>
+          </td>
+          <td style="width: 150px; vertical-align: middle;">
+            <%= link_to t('site.approve'),
+                        post_comment_update_status_path(comment.post, comment,
+                                                        :status => 'approve',
+                                                        :type => 'admin',
+                                                        :subtype => 'admin_comments'),
+                        :method => :put, :remote => true, :confirm => t('site.confirm'),
+                        :id => "approve_#{comment.id}", :class => 'btn btn-primary' %>
+            <%= link_to t('site.reject'),
+                        post_comment_update_status_path(comment.post, comment,
+                                                        :status => 'reject',
+                                                        :type => 'admin',
+                                                        :subtype => 'admin_comments'),
+                        :method => :put, :remote => true, :confirm => t('site.confirm'),
+                        :id => "reject_#{comment.id}", :class => 'btn btn-danger' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <div class="pull-right">
+    <%= page_navigation_links(comments) %>
+  </div>
+<% else %>
+  <div class="alert">
+    <%= t('comments.no_comments') %>
+  </div>
+<% end %>

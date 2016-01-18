@@ -1,0 +1,41 @@
+<div id="stream_<%= course.id %>">
+</div>
+
+<script type="text/javascript">
+  <% if current_user.teacher?(course.id) %>
+    $('#stream_<%= course.id %>').flash({
+      src: '<%= asset_path('RtmpPublisher.swf') %>',
+      width: '300px',
+      height: '237px',
+      allowfullscreen: 'true',
+      flashvars: {
+        file: '<%= "#{course.id}_#{Setting.rtmp.token}" %>',
+        streamer: 'rtmp://<%= request.host %>/live'}
+    });
+  <% else %>
+    jwplayer('stream_<%= course.id %>').setup({
+      streamer: 'rtmp://<%= request.host %>/live',
+      file: '<%= "#{course.id}_#{Setting.rtmp.token}" %>',
+      width: '300',
+      height: '225',
+      controlbar: 'none',
+      autoplay: true,
+      icons: false,
+      'rtmp.tunneling': false,
+      rtmp: {
+        bufferlength: 0
+      },
+      skin: '<%= asset_path('lightrv5.zip') %>',
+      <% if params[:debug] %>
+        plugins: {
+          'qualitymonitor': {}
+        },
+      <% end %>
+      flashplayer: '<%= asset_path('jwplayer.swf') %>'
+    });
+
+    jwplayer('stream_<%= course.id %>').onIdle(function() {
+      jwplayer('stream_<%= course.id %>').play();
+    }, 5000);
+  <% end %>
+</script>

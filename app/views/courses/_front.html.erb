@@ -1,0 +1,130 @@
+<div class="span4">
+  <% if Site.instance.broadcasting? %>
+    <div id="broadcast-container">
+      <div id="broadcast"></div>
+    </div>
+
+    <% if current_user.try(:admin?) %>
+      <script type="text/javascript">
+        $(function() {
+          $('#broadcast').flash({
+            src: '<%= asset_path('RtmpPublisher.swf') %>',
+            width: '300px',
+            height: '240px',
+            allowfullscreen: 'true',
+            flashvars: {
+              file: '<%= "broadcast_#{Setting.rtmp.token}" %>',
+              streamer: 'rtmp://<%= request.host %>/live'}
+          });
+        });
+      </script>
+      <%= link_to 'Stop broadcast', site_path(:first, :site => {:broadcasting => false}),
+                  :remote => true, :method => 'PUT', :class => 'pull-right btn btn-mini broadcast-button' %>
+    <% else %>
+      <script type="text/javascript">
+        $(function() {
+          jwplayer('broadcast').setup({
+            streamer: 'rtmp://<%= request.host %>/live',
+            file: '<%= "broadcast_#{Setting.rtmp.token}" %>',
+            width: '300',
+            height: '200',
+            controlbar: 'none',
+            autoplay: true,
+            menu: false,
+            icons: false,
+            'rtmp.tunneling': false,
+            rtmp: {
+              bufferlength: 0
+            },
+            skin: '<%= asset_path('lightrv5.zip') %>',
+            <% if params[:debug] %>
+              plugins: {
+                'qualitymonitor': {}
+              },
+            <% end %>
+            flashplayer: '<%= asset_path('jwplayer.swf') %>'
+          });
+
+          jwplayer('broadcast').onIdle(function() {
+            jwplayer('broadcast').play();
+          }, 5000)
+        });
+      </script>
+    <% end %>
+  <% else %>
+    <%= render 'courses/intro' %>
+    <% if current_user.try(:admin?) %>
+        <%= link_to 'Start broadcast', site_path(:first, :site => { :broadcasting => true }),
+                    :remote => true, :method => 'PUT', :class => 'pull-right btn btn-mini broadcast-button' %>
+    <% end %>
+  <% end %>
+</div>
+<div class="span8">
+  <ul class="nav nav-tabs">
+    <li class="active">
+      <a href="#recent_posts" data-toggle="tab"><%= t('site.recent_posts') %></a>
+    </li>
+    <li>
+      <a href="#upcoming_classes" data-toggle="tab"><%= t('schedules.upcoming') %></a>
+    </li>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane" id="upcoming_classes">
+      <% if upcoming_classes.blank? %>
+        <div class="alert">
+          <%= t('schedules.no_classes') %>
+        </div>
+      <% else %>
+        <table class="table table-striped table-hover">
+          <tbody>
+            <% upcoming_classes.each do |upcoming_class| %>
+              <tr>
+                <td>
+                <% if upcoming_class.mode == "LIVE" %>
+                  <%= link_to upcoming_class.description,
+                              hash_path(course_live_path upcoming_class.course, :subtype => 'live',
+                                                          :type => params[:type]) %>
+                  <br />
+                  <span class="muted"><%= upcoming_class.course.name %></span>
+                <% else %>
+                  <%= link_to upcoming_class.description,
+                              hash_path(course_lesson_path upcoming_class.course.id, upcoming_class.lesson.id, :subtype => 'lessons', :subject => "All", :type => params[:type]) %>
+                  <br />
+                  <span class="muted"><%= upcoming_class.course.name %></span>
+                <% end %>
+                </td>
+                <td style="width: 100px;" class="muted">
+                  <%= upcoming_class.start_time.to_s :human %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% end %>
+    </div>
+    <div class="tab-pane active" id="recent_posts">
+      <% if recent_posts.blank? %>
+        <div class="alert">
+          <%= t('posts.no_posts') %>
+        </div>
+      <% else %>
+        <table class="table table-striped table-hover">
+          <tbody>
+            <% recent_posts.each do |recent_post| %>
+              <tr>
+                <td>
+                  <%= link_to recent_post.title,
+                              hash_path(post_path(recent_post)) %>
+                  <span class="post-meta muted">
+                    <%= t('topics.posted') %>
+                    <%= timeago recent_post.updated_at %>
+                  </span>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% end %>
+    </div>
+  </div>
+</div>

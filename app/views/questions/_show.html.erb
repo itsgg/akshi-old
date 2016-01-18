@@ -1,0 +1,24 @@
+<%= render 'courses/menu', :course => course %>
+<%= render 'quizzes/actionbar', :course => course %>
+
+<% if quizzes.present? %>
+  <div class="row">
+    <div class="tabs-left span4">
+      <%= render 'quizzes/nav', :course => course, :quiz => quiz,
+                 :quizzes => quizzes %>
+    </div>
+    <div class="span8" id="quizzes">
+      <div id="question">
+        <% if current_user.teacher?(course.id) %>
+          <%= render 'questions/show_teacher', :course => course,
+                      :quiz => quiz, :question => question,
+                      :questions => questions %>
+        <% else %>
+          <%= render 'questions/show_student', :course => course,
+                      :quiz => quiz, :question => question,
+                      :questions => questions, :user_response => user_response %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>

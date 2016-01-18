@@ -1,0 +1,5 @@
+$('#content').html('<%= escape_javascript(
+                          render "chats/index", :course => @course,
+                                 :chats => []) %>');
+$('#main-menu').html('<%= escape_javascript(render "layouts/main_menu") %>');
+window.initAjaxCSRF('<%= form_authenticity_token %>');

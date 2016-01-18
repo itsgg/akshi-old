@@ -1,0 +1,54 @@
+<%= render 'courses/menu', :course => course %>
+<%= render 'topics/actionbar', :course => course %>
+
+<ul class="breadcrumb">
+  <li>
+    <%= link_to t('courses.menu.topics'), hash_path(course_topics_path(:type => params[:type], :subject => "All",
+                                                             :subtype => params[:subtype])),
+                :class => 'scroll-top' %>
+    <span class="divider">/</span>
+  </li>
+  <li class="active">
+    <%= topic.title %>
+  </li>
+</ul>
+
+<table class="table table-striped table-hover">
+  <tbody>
+    <tr class="row" id="topic_<%= topic.id %>">
+        <%= render 'topics/details', {
+                      :topic => topic,
+                      :course => course,
+                      :params_to_pass => params_to_pass
+                    } %>
+    </tr>
+  </tbody>
+</table>
+
+<div class="page-header">
+  <h4><%= t('topics.replies') %></h4>
+</div>
+
+<% if replies.present? %>
+  <table class="table table-striped table-hover">
+    <tbody>
+      <% replies.try(:each) do |reply| %>
+        <tr class="row" id="topic_<%= reply.id %>">
+          <%= render 'topics/details', {
+                        :topic => reply,
+                        :course => course,
+                        :params_to_pass => params_to_pass
+                      } %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <div class="pull-right">
+    <%= page_navigation_links(replies) %>
+  </div>
+<% else %>
+  <div class="alert">
+    <%= t('topics.no_replies') %>
+  </div>
+<% end %>

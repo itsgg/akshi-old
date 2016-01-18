@@ -1,0 +1,12 @@
+<% if @lesson.conversion_complete? %>
+  $('#lesson-<%= @lesson.id %> .viewer')
+      .html('<%= escape_javascript(
+                render "shared/viewers/#{@lesson.upload_type}",
+                        :lesson => @lesson, :show_controls => true) %>');
+<% else %>
+  $('#lesson-<%= @lesson.id %> .viewer')
+      .html('<%= escape_javascript(
+                 render "shared/viewers/conversion_pending",
+                 :course => @course, :lesson => @lesson) %>');
+<% end %>
+window.initAjaxCSRF('<%= form_authenticity_token %>');

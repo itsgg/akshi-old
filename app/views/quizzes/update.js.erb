@@ -1,0 +1,10 @@
+<% if @success %>
+  $(window).hashchange();
+<% else %>
+  $('#content').html('<%= escape_javascript(
+                          render "quizzes/show", :course => @course,
+                                 :quiz => @quiz,
+                                 :quizzes => @quizzes) %>');
+  <%= render 'shared/page_flash' %>
+<% end %>
+window.initAjaxCSRF('<%= form_authenticity_token %>');
